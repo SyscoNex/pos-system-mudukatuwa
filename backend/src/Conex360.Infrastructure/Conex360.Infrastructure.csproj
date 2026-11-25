@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Conex360.Application/Conex360.Application.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,13 @@
+* text=auto
+*.cs text eol=lf
+*.csproj text eol=lf
+*.props text eol=lf
+*.json text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.yml text eol=lf
+*.ps1 text eol=lf
+# Preserve the byte-for-byte historical reference and archived documents.
+database/reference/** -text
+docs/reference/** -text

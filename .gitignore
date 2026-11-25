@@ -1,0 +1,41 @@
+# Secrets and local environments
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.dump
+*.sql.gz
+# Build and IDE
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/coverage/
+**/TestResults/
+.vs/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+
+# Next.js generated/local files
+**/.next/
+**/out/
+**/.turbo/
+**/.vercel/
+**/*.tsbuildinfo
+**/next-env.d.ts
+
+# Workspace-only runtimes, browser binaries and local evidence
+.tools/
+artifacts/
+**/playwright-report/
+**/test-results/
+**/node_modules/
+**/packages.lock.json.tmp

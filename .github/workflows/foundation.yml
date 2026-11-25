@@ -1,0 +1,58 @@
+name: Foundation checks
+
+on:
+  pull_request:
+  push:
+    branches: [main, "feature/**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: foundation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: true
+      NEXT_TELEMETRY_DISABLED: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 26.13.1
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Restore locked backend dependencies
+        run: dotnet restore backend/Conex360.sln --locked-mode
+      - name: Backend formatting
+        run: dotnet format backend/Conex360.sln --verify-no-changes --no-restore
+      - name: Build backend
+        run: dotnet build backend/Conex360.sln --no-restore -c Release
+      - name: Backend tests
+        run: dotnet test backend/Conex360.sln --no-build -c Release
+      - name: Install locked frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Frontend checks
+        working-directory: frontend
+        run: |
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm test
+          npm audit --audit-level=high
+          npm run build
+      - name: Install test browser
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+      - name: Built frontend and real API browser tests
+        working-directory: frontend
+        run: npm run test:e2e
