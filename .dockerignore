@@ -1,0 +1,15 @@
+.git
+.tools
+artifacts
+**/bin
+**/obj
+**/node_modules
+**/.next
+**/TestResults
+**/test-results
+**/playwright-report
+**/.env
+**/.env.*
+**/*.user
+database
+docs/reference
