@@ -1,4 +1,8 @@
 # Future Conex360 product opportunities
+
+## Customer display boundary
+Same-computer dual-monitor display is current Phase 1, scheduled P1-08. Independent tablet/network/browser-profile display is future scope: secure short-lived pairing, register/session binding, revocation and SignalR only when approved. No such infrastructure or persistent pairing tables for initial BroadcastChannel synchronization. [Active specification](20_CUSTOMER_DISPLAY.md).
+
 These capabilities remain part of the long-term vision, not Phase 1 requirements, implementation dependencies or launch gates. The original detailed descriptions are preserved in [the 24 November knowledge-pack snapshot](reference/enterprise_baseline_2026-11-24/README.md), original 23 November references, and the unchanged database/reference/01_schema.sql.
 
 | Future area | Possible scope | Prerequisite before a later implementation |

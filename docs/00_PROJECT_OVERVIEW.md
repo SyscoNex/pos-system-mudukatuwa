@@ -1,5 +1,5 @@
 # Phase 1 product overview
-**Owner-approved Phase 1 scope and starting design: 25 November 2026. Foundation implementation only is authorized.**
+**Owner-approved Phase 1 scope/design: 25 November 2026; P1-01 accepted and P1-02 authorized 28 November. Only the disposable auth-review database execution is approved. Stop before P1-03.**
 
 Conex360 is owned by SysConex. Its first release serves a coconut manufacturer with initially one or two operators. Provide useful daily workflows and accurate stock without delivering the full future enterprise platform.
 

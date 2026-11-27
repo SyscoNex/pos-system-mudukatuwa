@@ -1,5 +1,5 @@
 # Phase 1 database starting design
-**Starting design approved 25 November 2026. Detailed DDL and database execution are not authorized by the foundation milestone.**
+**Starting design approved 25 November 2026. P1-02 introduces only seven application tables plus migration bookkeeping; exact 0000–0002 DDL and isolated execution are reviewed/approved separately. See docs/21 and docs/19. Later tables remain design only.**
 
 Phase 1 is designed as an independently installable operational database, not a reduced set of screens on the enterprise database. Its approved starting baseline has 38 application tables: 33 adapted historical names and five new tables. This is not a fixed limit; justify/review additional tables against real requirements. Migration-tool bookkeeping, if selected, is separate. Add tables by functional slice; do not generate them all during foundation.
 
@@ -50,7 +50,7 @@ Columns below describe essential design fields, not executable DDL or a complete
 | 38 | idempotency_keys | scoped actor/command/key, canonical request hash, response/result references and completion; effects/result commit together; no Phase 1 automatic TTL deletion |
 
 ## Core relationships and integrity
-Tenant -> membership -> user; tenant -> exactly one default company. Company -> branches -> ordinary warehouses -> locations -> stock buckets; lots -> items; a hidden company transit warehouse holds only transit locations. Bootstrap tenant, company, first Administrator, default locations and audit atomically using a controlled process; no public signup/billing platform.
+Tenant -> membership -> user; tenant -> exactly one default company. Company -> branches -> ordinary warehouses -> locations -> stock buckets; lots -> items; a hidden company transit warehouse holds only transit locations. P1-02 atomically provisions tenant/company/initial Administrator/membership/audit. Locations belong to P1-03 and are not an onboarding dependency now. No public signup/billing platform.
 
 A document root owns stable document_lines. Typed headers share its ID. The shared line registry now also holds the few common item/quantity/price snapshots; typed line tables are retained only for count evidence and return-source constraints. Every type has a specific posting handler: no public generic document CRUD/post endpoint.
 

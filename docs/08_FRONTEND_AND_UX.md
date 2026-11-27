@@ -1,5 +1,9 @@
 # Phase 1 frontend and UX
-Next.js with TypeScript, App Router and a Node production runtime are approved and scaffolded. P1-01 implements the branded foundation overview, real API connection/retry, quick guide, responsive navigation and read-only build journey. No business data, login, outlet selector or operational module screen exists yet. Use a simple responsive operational application with visible Business/outlet/warehouse context when those features are implemented.
+
+## Mandatory P1-08 dual-screen checkout
+Cashier /pos supports Open Customer Display; /pos/customer-display is fullscreen-capable read-only content on a second extended monitor. Branding/welcome, cart lines/discounts/totals, paid/change and authoritative completion/thank-you/reset, with visible provisional/stale/disconnected/reconnect states. No operational code in P1-02. [Complete UX/protocol](20_CUSTOMER_DISPLAY.md).
+
+Next.js/TypeScript App Router and Node runtime are retained. The P1-01 foundation overview remains; P1-02 adds branded login, password/forced change, protected workspace/account menu, verified business selection and Administrator business settings/logo. Outlet and operational modules remain later milestones. No fabricated dashboard statistics. See docs/19 for actual validation.
 
 ## Screens added by slice
 Login/password change; Business profile/logo; Administrator user list and Staff outlet grants; outlets/warehouses; product/category/unit/barcode/prices; suppliers/customers; opening/incoming stock; warehouse/lot stock/history/expiry; transfer request/reserve/dispatch/partial receipt/discrepancy; adjustment/waste/count; completed manufacturing run; online POS/payment/receipt/return; dashboard/basic reports/audit.

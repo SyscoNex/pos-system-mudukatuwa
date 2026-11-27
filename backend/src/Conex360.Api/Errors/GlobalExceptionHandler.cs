@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using Conex360.Application.Identity;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using MySqlConnector;
 
 namespace Conex360.Api.Errors;
 
@@ -12,7 +14,9 @@ public sealed class GlobalExceptionHandler(
         HttpContext context, Exception exception, CancellationToken cancellationToken)
     {
         var isInvalid = exception is BadHttpRequestException or ValidationException;
-        var status = isInvalid ? StatusCodes.Status400BadRequest : StatusCodes.Status500InternalServerError;
+        var failure = exception as AppFailure;
+        var unavailable = exception is MySqlException or IOException;
+        var status = failure?.Status ?? (unavailable ? 503 : isInvalid ? 400 : 500);
         if (isInvalid)
         {
             logger.LogWarning("Invalid request with {ExceptionType}; trace {TraceId}",
@@ -30,8 +34,8 @@ public sealed class GlobalExceptionHandler(
             ProblemDetails = new ProblemDetails
             {
                 Status = status,
-                Title = isInvalid ? "The request is invalid." : "An unexpected error occurred.",
-                Extensions = { ["code"] = isInvalid ? "INVALID_REQUEST" : "INTERNAL_ERROR" }
+                Title = failure?.Message ?? (unavailable ? "Business services are temporarily unavailable." : isInvalid ? "The request is invalid." : "An unexpected error occurred."),
+                Extensions = { ["code"] = failure?.Code ?? (unavailable ? "DATABASE_UNAVAILABLE" : isInvalid ? "INVALID_REQUEST" : "INTERNAL_ERROR") }
             }
         });
     }

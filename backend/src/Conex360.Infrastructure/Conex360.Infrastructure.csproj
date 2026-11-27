@@ -1,5 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="../Conex360.Application/Conex360.Application.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="MySqlConnector" />
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../../../database/migrations/*.sql" />
   </ItemGroup>
 </Project>

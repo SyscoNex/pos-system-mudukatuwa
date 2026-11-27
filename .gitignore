@@ -34,6 +34,7 @@ Thumbs.db
 
 # Workspace-only runtimes, browser binaries and local evidence
 .tools/
+.local/
 artifacts/
 **/playwright-report/
 **/test-results/

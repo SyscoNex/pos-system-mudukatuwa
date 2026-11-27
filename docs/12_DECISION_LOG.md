@@ -1,5 +1,5 @@
 # Decision log — Phase 1
-**25 November 2026.** Confirmed = owner-approved direction; Proposed = awaits design approval; Open = unresolved before dependent slice; Partial = implemented/decided in part; Superseded = historical gate. P1-01 application/dependency work is explicitly authorized; database execution and P1-02 are not.
+**Updated 28 November 2026.** Confirmed = owner-approved direction; Proposed = awaits approval; Open = unresolved before dependent slice; Partial = implemented/decided in part; Superseded = historical gate. P1-01 is accepted; P1-02a/b/c and isolated conex360-auth-review execution/synthetic tests are authorized. Stop before P1-03.
 The complete D01-D20 enterprise decision log is preserved in [the archived baseline](reference/enterprise_baseline_2026-11-24/docs/12_DECISION_LOG.md).
 
 ## Supersession
@@ -15,7 +15,7 @@ D03's offline delivery and D07's mandatory FIFO/finance/offline bundle are defer
 | P05 | Confirmed | Keep company internally, auto-create one per tenant; no legal-company UI |
 | P06 | Confirmed | Exact decimals, immutable inventory history, locked projections, no negatives/duplicates/cross-tenant transfer; transit, partial receipt/damage/corrections and carried cost remain mandatory |
 | P07 | Confirmed | .NET 10 LTS, Next.js/TypeScript, MySQL 8.4, modular monolith, practical Clean Architecture/SOLID, GitHub/Linux VPS and Docker/Compose where appropriate; .NET owns business/authz |
-| P08 | Superseded | Original documentation-only gate was replaced by the owner authorization of P1-01; database/authentication work is still gated |
+| P08 | Superseded | Original documentation-only/foundation gates replaced by P1-02 authorization and the isolated execution approval P25; later milestones/production remain gated |
 | P09 | Confirmed | 38 application tables, introduced by slice; one-company unique key, shared item/quantity line snapshots and explicit transfer allocations |
 | P10 | Confirmed | Per-bucket moving-average operational carried value, FEFO physical picking; exact transfer/return allocation residuals; no FIFO layers/accounting |
 | P11 | Confirmed direction | Completed manufacture with actual inputs/packaging and one finished SKU/lot in one factory warehouse; input value absorbed by output; bulk/packaging as separate runs |
@@ -25,12 +25,17 @@ D03's offline delivery and D07's mandatory FIFO/finance/offline bundle are defer
 | P15 | Confirmed | Short logical warehouse freeze for counts; movement snapshots and once-only variance completion |
 | P16 | Confirmed direction | Single currency; simple unit prices/discounts; manual cash/card/bank records and partial payments; original-sale/lot returns, held by default; no tax components or cross-sale credits |
 | P17 | Partial | Short feature branch, npm lockfile, CI and isolated Compose implemented in P1-01; remote main protection not configured and no commit/push/deploy performed |
-| P18 | Partial | Revised scope/architecture and P1-01 approved; final DDL/safeguards/target execution and authentication implementation still require their next-slice gate |
-| P19 | Partial | SDK/runtime/frontend/test/image pins selected and validated in P1-01; workspace Node 26.13.1 leaves system Node unchanged; Docker engine now available; migration tool remains for P1-02 |
+| P18 | Partial | P1-01 accepted, P1-02 authorized and 0000–0002/auth-review separately approved; owner review required before P1-03 |
+| P19 | Implemented | Pinned SDK/runtime/frontend/test/images retained; workspace Node leaves system unchanged; Docker available and explicit migration runner added in P1-02 |
 | P20 | Open | Actual outlets/warehouse grants, item/unit/lot/opening data, expiry boundary, cost/rounding and count/transfer exception policies |
 | P21 | Open | Session duration/password/recovery/Admin MFA launch policy, safe shared-user management, branding/receipt details and audit/privacy retention |
 | P22 | Open | One-output completed-run fit, waste treatment, unpaid sales/discount/return/refund permissions, customer credit treatment, scanner/print/manual-weight fit |
 | P23 | Open | VPS/domain/secrets/off-host backup storage/retention and acceptable loss/recovery window; measured restore and client UAT |
+| P24 | Confirmed | Mandatory Phase 1 same-computer dual-monitor Customer Facing Display, implemented only in P1-08. Per-checkout unguessable BroadcastChannel, sanitized DTO, authoritative backend payment confirmation, revision/transaction ordering, resync/heartbeat/reset; no real-time server or persistent pairing table. Full specification docs/20 |
+| P25 | Confirmed execution boundary | Owner separately approved only reviewed 0000–0002, new conex360-auth-review database and synthetic tests; no published DB port, production/historical SQL/other projects excluded. P1-02 code is authorized; P1-03 still gated |
+| P26 | Implemented technical choice | Focused MySqlConnector 3.0.0 SQL and explicit embedded/checksummed migration command, no ORM/startup migration. Seven app tables + journal; tenant-operation UUID/uniques cover onboarding replay, idempotency table deferred. Runtime DML and migrator DDL identities separate |
+| P27 | Implemented technical choice | SkiaSharp 4.158.0 MIT raster decoder/re-encoder, private immutable scoped PNG files, certificate-encrypted persistent Data Protection key ring. No arbitrary image URL/SVG or public uploads |
+| P28 | Proposed production defaults | Password 15–128, 210k PBKDF2-SHA512, idle 30m/absolute 8h, five failures/15m lockout, controlled verified support recovery. Administrator MFA launch policy remains open; this is not production approval |
 
 Do not invent currency/tax/rounding/expiry rates or business policies. Open P20-P23 choices gate dependent features or launch, not documentation or an otherwise approved minimal scaffold.
 For a design change record context, proposal/alternatives, scope, security/stock/cost/data impact, test evidence and owner acceptance. A short ADR is sufficient; do not add one per routine code decision.

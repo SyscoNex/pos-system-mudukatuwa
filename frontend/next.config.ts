@@ -27,6 +27,18 @@ const config: NextConfig = {
   },
   async headers() {
     return [
+      ...[
+        "/login",
+        "/app",
+        "/settings/:path*",
+        "/account/:path*",
+        "/select-business",
+      ].map((source) => ({
+        source,
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+        ],
+      })),
       {
         source: "/:path*",
         headers: [

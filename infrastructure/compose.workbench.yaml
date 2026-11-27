@@ -1,0 +1,6 @@
+# Optional local inspection access, requested by the owner on 28 November 2026.
+# Apply together with compose.auth-review.yaml; the base stays unpublished.
+services:
+  mysql:
+    ports:
+      - "127.0.0.1:3307:3306"

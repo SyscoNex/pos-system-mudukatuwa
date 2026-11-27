@@ -34,6 +34,19 @@
         "resolved": "18.12.0",
         "contentHash": "OhOPSaCAQhBJgXF1OrX0uK3eTkwZ1XnM44iGLZplYgKrmgKzQUdv9xtGGaE568RuQ738TlrTJ3pm9aWL5FH7iw=="
       },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.15",
+        "contentHash": "KczR2nV7ooeimtZxAawPht/FJUHnX+uoWy7y4pba+iaRQBwUM2NwtiqZg+/FpZDHUf2RkkzveGkhMTWDNzmDUA=="
+      },
+      "Microsoft.Extensions.Logging.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.15",
+        "contentHash": "s5xzXGWqqlmmThMnQ1rnmL7QLwbluB2JqX9NaK8C9HPuHzN7kfmiddTRbwts5rQssATkh2B18RrofjeUD8g14A==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.15"
+        }
+      },
       "Microsoft.OpenApi": {
         "type": "Transitive",
         "resolved": "2.13.0",
@@ -51,6 +64,16 @@
         "dependencies": {
           "Microsoft.TestPlatform.ObjectModel": "18.12.0"
         }
+      },
+      "SkiaSharp.NativeAssets.macOS": {
+        "type": "Transitive",
+        "resolved": "4.158.0",
+        "contentHash": "KldVRYCbwIQtAfUyGGKnkPeGYZohvRikZI0sHe9f4QxN0LtKqn70j4GB4diEVcfpO5/Tt3+H/aIqUCZ1wRgTdg=="
+      },
+      "SkiaSharp.NativeAssets.Win32": {
+        "type": "Transitive",
+        "resolved": "4.158.0",
+        "contentHash": "7+7mqPOFD8oINjuVHS358PpOX2yERNnBZbQDFhPeHxEYLpOmMEaO+k7XzKdhPEUiPRZtLvf3RmG1xJRaAaEUZw=="
       },
       "xunit.abstractions": {
         "type": "Transitive",
@@ -112,7 +135,10 @@
       "conex360.infrastructure": {
         "type": "Project",
         "dependencies": {
-          "Conex360.Application": "[0.1.0, )"
+          "Conex360.Application": "[0.1.0, )",
+          "MySqlConnector": "[3.0.0, )",
+          "SkiaSharp": "[4.158.0, )",
+          "SkiaSharp.NativeAssets.Linux.NoDependencies": "[4.158.0, )"
         }
       },
       "Microsoft.AspNetCore.OpenApi": {
@@ -123,6 +149,32 @@
         "dependencies": {
           "Microsoft.OpenApi": "[2.13.0, 3.0.0)"
         }
+      },
+      "MySqlConnector": {
+        "type": "CentralTransitive",
+        "requested": "[3.0.0, )",
+        "resolved": "3.0.0",
+        "contentHash": "ioYpdWl4xa9iVNsnWzIsYUuSr5MJ3KRZJ69QvzQdfDd1ax6s6GDXs65gCTt/eY/fzG4IiYxCgiu5urWUfk3AwQ==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.15",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.15"
+        }
+      },
+      "SkiaSharp": {
+        "type": "CentralTransitive",
+        "requested": "[4.158.0, )",
+        "resolved": "4.158.0",
+        "contentHash": "EcQW2hYO9N23HaU3JbuqLJOsowxt9uJBBTUvQK9hNvs+sJOz17IBE6gpd5L8R6RcbvalbuRtI4WslZSfS/edVQ==",
+        "dependencies": {
+          "SkiaSharp.NativeAssets.Win32": "4.158.0",
+          "SkiaSharp.NativeAssets.macOS": "4.158.0"
+        }
+      },
+      "SkiaSharp.NativeAssets.Linux.NoDependencies": {
+        "type": "CentralTransitive",
+        "requested": "[4.158.0, )",
+        "resolved": "4.158.0",
+        "contentHash": "LKlvs3hQ5i3YlrWnXZEbDaC45BmglLDCH5CQJ3CeAzRiYmrAzw9+86yykh2yrLiKtRhVhdEgcmb+E8b8yRHksQ=="
       }
     }
   }

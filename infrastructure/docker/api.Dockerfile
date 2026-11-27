@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0.404@sha256:8c6edfb26c85153f236d26efebd9ad
 WORKDIR /source
 COPY global.json ./
 COPY backend/ backend/
+COPY database/migrations/ database/migrations/
 RUN dotnet restore backend/src/Conex360.Api/Conex360.Api.csproj --locked-mode
 RUN dotnet publish backend/src/Conex360.Api/Conex360.Api.csproj -c Release --no-restore -o /app/publish /p:UseAppHost=false
 

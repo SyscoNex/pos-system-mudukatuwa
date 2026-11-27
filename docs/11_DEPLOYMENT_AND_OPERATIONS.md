@@ -1,4 +1,6 @@
 # Phase 1 deployment and operations
+
+P1-02 local runtime/first-business/recovery procedure is in [docs/19](19_AUTH_BUSINESS_IMPLEMENTATION.md). Only conex360-auth-review execution is approved; original foundation stack is preserved. Persistent volume holds private logos and certificate-encrypted Data Protection keys; PFX/password remain separate secrets. MySQL is unpublished, runtime journal/evidence permissions are restricted, migrations explicit and never startup. Production requires VerifyFull database TLS, explicit HTTPS origins/trusted proxy IPs and host certificates/permissions. Restart/dependency tests are not a full encrypted off-host backup/restore rehearsal; production launch and MFA remain separate owner decisions.
 Use isolated local/CI synthetic data, staging/test credentials and production on a Linux VPS. A single host with Next.js Node, .NET API, MySQL and reverse proxy is sufficient to start; it is a single failure domain. No Worker/broker/replica/offline service is required.
 Docker Compose is proposed where it simplifies repeatability. Choose host/storage from actual client usage; the historical 4 vCPU/8 GB and RPO/RTO targets are not approved Phase 1 guarantees.
 
