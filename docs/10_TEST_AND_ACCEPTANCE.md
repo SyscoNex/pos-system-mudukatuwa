@@ -1,4 +1,9 @@
 # Phase 1 acceptance and release gates
+
+## Added slice acceptance
+P1-02 evidence: [docs/19](19_AUTH_BUSINESS_IMPLEMENTATION.md). Required auth success/failure/disable/revoke/expiry/forced-change, CSRF/rate/lockout, roles, atomic provisioning/rollback/replay, shared-user/cross-tenant isolation, optimistic concurrency, safe private logos/cache, readiness and runtime persistence. Real MySQL requires isolated approval; skipped tests never count as evidence.
+P1-08 requires two windows/multiple cashier instances, rapid updates/discounts, payment success/failure/uncertain outcomes, stale/duplicate/wrong-transaction messages, heartbeat/resync/reopen, cancellation/next sale and logout/tenant/outlet isolation. Verify DTO sanitization, no early success or privileged commands: [docs/20](20_CUSTOMER_DISPLAY.md).
+
 Tests accompany each vertical slice. Use deterministic unit tests for math/policy, real MySQL 8.4 for constraints/locking/transactions, API contracts and focused browser tests. SQLite/in-memory stores do not prove InnoDB behavior.
 Fixtures: two tenants with identical codes, default companies, factory/outlet warehouses, Admin and Staff with differing grants, several lots/expiry dates and exact costs. Include a shared global user to exercise membership boundaries. No production data.
 

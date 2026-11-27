@@ -1,4 +1,9 @@
 # Proposed Phase 1 API contracts
+
+## Implemented P1-02 / future display contracts
+Actual authentication/business endpoints, CSRF headers, string IDs, context/row versions and errors: [implementation report](19_AUTH_BUSINESS_IMPLEMENTATION.md). Later endpoint proposals below remain unimplemented. No public registration or client-tenant-ID authorization.
+P1-08 distinguishes provisional cart from server-confirmed totals and committed payment. Customer display receives a separate sanitized allowlisted DTO over BroadcastChannel, never backend entities or privileged commands. See [display protocol](20_CUSTOMER_DISPLAY.md).
+
 P1-01 implements only GET /api/v1/health (plus process-only /health/live and /health/ready). It returns status/service/version/scope/timestamp; scope=process does not assert database or business readiness. Development-only /openapi/v1.json describes health. All business routes below remain unimplemented. Browser requests use same-origin /api/v1. In P1-02, tenant and the one default company will resolve from authenticated active membership; no company selector or tenant/company body binding. For a multi-membership user, a server-validated context-selection command may choose a granted membership; it never accepts arbitrary tenant authority.
 
 Implemented foundation conventions: private/no-store API responses, safe problem details with code/traceId, structured redacted request/error logs, .NET validation registration and strict decimal/ulong string converters. There is no request-body business endpoint yet; module-specific bounds and authorization belong in their future slices.

@@ -1,5 +1,5 @@
 # Phase 1 requirements
-The owner approved Phase 1 scope/design on 25 November 2026 and authorized P1-01 foundation only. Earlier FIN/OFF/advanced requirements are future scope, preserved in the archive. All rows below are Phase 1 requirements, not completed functionality. Remaining operational policy choices appear in the plan/decision log.
+The owner approved Phase 1 scope/design, accepted P1-01 and authorized P1-02. Earlier FIN/OFF/advanced requirements remain future scope. Rows describe Phase 1 outcomes; actual implementation evidence is in docs/18 and docs/19. Remaining operational choices appear in the plan/decision log.
 
 | ID | Capability | Acceptance outcome |
 |---|---|---|
@@ -19,6 +19,7 @@ The owner approved Phase 1 scope/design on 25 November 2026 and authorized P1-01
 | P1-ADJ-01 | Adjustments, waste and stock takes | Administrator posts reasoned changes; short warehouse freeze proposed for counts; count variance posts once |
 | P1-MFG-01 | Actual raw/packaging consumption and finished output | One completed run proposed; all actual lot issues and output commit together; input cost carried into output, no WIP accounting |
 | P1-POS-01 | Online search/scan, UOM/quantity/weight entry, discount, receipt/reprint | Server totals and issues stock once; print failure cannot create duplicate sale; exact manual weight initially |
+| P1-POS-02 | Dual-screen Customer Facing Display in P1-08 | /pos cashier opens /pos/customer-display; scoped same-computer BroadcastChannel, sanitized allowlist, provisional/confirmed totals, no early payment success, stale/reconnect/reset and transaction isolation; full specification docs/20_CUSTOMER_DISPLAY.md |
 | P1-PAY-01 | Cash and manually confirmed other payments | Applied/tender/change amounts reconcile; partial/split payments supported; no payment-provider integration or claim of bank reconciliation |
 | P1-RET-01 | Linked sales returns and recorded refunds | Concurrent return/refund caps enforced; original sale/lot and prices retained; held/damaged return cannot silently become sellable |
 | P1-REP-01 | Dashboard and bounded operational reports | Stock by outlet/warehouse/lot, transit, expiry, incoming, manufacture, sales/payments/returns; authorized totals reconcile to facts |

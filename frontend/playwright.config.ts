@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+const port = process.env.CONEX360_E2E_PORT ?? "3600";
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -8,7 +9,7 @@ export default defineConfig({
   workers: 2,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:3600",
+    baseURL: `http://127.0.0.1:${port}`,
     trace: "retain-on-failure",
     ...devices["Desktop Chrome"],
   },
@@ -23,7 +24,8 @@ export default defineConfig({
     },
     {
       command: "npm run start",
-      url: "http://127.0.0.1:3600",
+      url: `http://127.0.0.1:${port}`,
+      env: { PORT: port },
       reuseExistingServer: false,
       timeout: 60_000,
     },

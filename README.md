@@ -1,15 +1,15 @@
 # Conex360 — Phase 1 development knowledge pack
-**SysConex | Foundation v0.1.0 / knowledge pack v0.4 | 25 November 2026**
+**SysConex | P1-02 / application v0.1.0 / knowledge pack v0.5 | 28 November 2026**
 
 Conex360 has a comprehensive long-term product vision. The immediate delivery is a lightweight, reliable online POS and stock/manufacturing system for a coconut business operated initially by one or two people.
 
-The product owner approved Phase 1 and the 38-table starting design, then authorized P1-01 Minimal Project Foundation. The repository now includes a branded Next.js shell, a .NET API with process-health/error/JSON conventions, tests and isolated Docker configuration. Authentication, business modules and all database initialization remain absent. See [the implementation record](docs/18_FOUNDATION_IMPLEMENTATION.md) for actual validation and limitations.
+The owner accepted P1-01 and authorized P1-02 Authentication, Tenant Isolation and Business Setup. The existing foundation is preserved and extended with cookie sessions, controlled onboarding, private business settings/logos and protected frontend routes. Database execution was separately approved for the disposable conex360-auth-review target and synthetic tests only. See [P1-02 implementation/runbook](docs/19_AUTH_BUSINESS_IMPLEMENTATION.md), [concrete database review](docs/21_P1_02_DATABASE_REVIEW.md), and [P1-01 evidence](docs/18_FOUNDATION_IMPLEMENTATION.md). Stop for owner review before P1-03; no production access or automatic startup migrations.
 
 ## Start here
 1. Read AGENTS.md, docs/00_PROJECT_OVERVIEW.md and docs/12_DECISION_LOG.md.
 2. Review docs/14_PHASE1_IMPLEMENTATION_PLAN.md and docs/03_DATABASE_DESIGN.md.
 3. Review docs/15_PHASE1_SCHEMA_MAPPING.md and docs/16_ENVIRONMENT_READINESS.md.
-4. Review the completed foundation before authorizing P1-02 authentication/business setup. Database DDL/target execution needs its own approval; 38 tables are a starting design, not a fixed restriction.
+4. Review P1-02 evidence before authorizing P1-03. The 38 tables remain a starting design; only seven application tables are introduced now. Same-computer customer display is mandatory Phase 1, reserved for P1-08; see docs/20_CUSTOMER_DISPLAY.md.
 
 ## Run locally
 Prerequisites: .NET SDK 10.0.404 and Node 26.13.1/npm 11.20.0. The Node selection is workspace-local on Windows; the system Node installation is unchanged.
@@ -32,11 +32,13 @@ Open http://127.0.0.1:3600. The API is http://127.0.0.1:5180/api/v1/health; deve
 For the built production frontend use npm run build then npm start from frontend. The postbuild step includes standalone assets; start uses the generated Node server. API_PROXY_TARGET is a server-only fixed rewrite target resolved at build time; production Nginx sends /api directly to .NET. The browser always calls the same origin.
 
 ## Local Docker alternative
+For MySQL Workbench inspection of the existing auth-review database, see [local Workbench setup](docs/LOCAL_MYSQL_WORKBENCH.md). Its optional override enables localhost port 3307 and a separate read-only account; the base Compose files retain their original defaults.
+
 ```powershell
 docker compose -p conex360-foundation -f infrastructure/compose.yaml up --build -d --wait --wait-timeout 60
 .\scripts\Test-Foundation.ps1
 ```
-Open http://127.0.0.1:3600. Stop an existing host frontend first, or set CONEX360_HTTP_PORT to another free port in this shell. Only the proxy is published, on loopback; API/frontend remain on the project network. No MySQL service, database volume or migration hook exists.
+Open http://127.0.0.1:3600. Stop an existing host frontend first, or set CONEX360_HTTP_PORT to another free port in this shell. Only the proxy is published, on loopback; API/frontend remain on the project network. This original foundation Compose file has no MySQL/migration hook; the separately approved P1-02 auth-review file is described in docs/19.
 ```powershell
 docker compose -p conex360-foundation -f infrastructure/compose.yaml stop
 ```
@@ -88,6 +90,9 @@ Stock and operational cost/payment records are accurate transactions. They do no
 | docs/16_ENVIRONMENT_READINESS.md | Actual local checks and minimum next steps |
 | docs/17_FUTURE_PRODUCT.md | Deferred product opportunities |
 | docs/18_FOUNDATION_IMPLEMENTATION.md | Foundation files, pins, commands, results and remaining gates |
+| docs/19_AUTH_BUSINESS_IMPLEMENTATION.md | P1-02 functionality, endpoints, security decisions, actual evidence and local onboarding |
+| docs/20_CUSTOMER_DISPLAY.md | Mandatory P1-08 same-computer dual-screen requirements, protocol and acceptance |
+| docs/21_P1_02_DATABASE_REVIEW.md | Concrete seven-table SQL, isolated execution approval and safeguards |
 | database/README.md | Phase 1 migration boundary and historical warning |
 | docs/reference/enterprise_baseline_2026-11-24/README.md | Hash-verified snapshot of the superseded knowledge pack |
 | docs/reference/*2026-11-23.md / SCHEMA_INDEX.md | Original historical design texts/index |
@@ -97,4 +102,4 @@ Stock and operational cost/payment records are accurate transactions. They do no
 Current user instructions take precedence, followed by current root guidance and Phase 1 specifications. A proposal is not an approved decision. Historical requirements remain available for future expansion; they do not impose current functionality.
 The 24 November guidance was archived before this revision. The original SQL remains unchanged (SHA-256: 1810fe5af34702fa8b475aa1cbe3cb16f87b0e00a8b3d9f6361ce2fcc0f3fd32). The historical missing companion scripts are not a Phase 1 prerequisite; Phase 1 requires its own reviewed safeguards and reference setup.
 
-Foundation builds/tests and local runtime validation are recorded in the implementation report. No database initialization/migration, real-MySQL inventory test, production deployment, hardware integration or backup restore has been performed. Historical SQL and archived references remain unchanged.
+Foundation evidence is historical; P1-02 database/auth/business evidence is recorded separately in docs/19_AUTH_BUSINESS_IMPLEMENTATION.md. No inventory, production deployment, hardware integration or full backup restore is claimed. Historical SQL and archived references remain unchanged. Authenticated local review instructions use separate ports 3602/5182 and the isolated review project; the original no-database foundation mode above remains available.

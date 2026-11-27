@@ -8,6 +8,9 @@
 *.css text eol=lf
 *.yml text eol=lf
 *.ps1 text eol=lf
+*.sh text eol=lf
+*.yaml text eol=lf
+database/migrations/*.sql text eol=lf
 # Preserve the byte-for-byte historical reference and archived documents.
 database/reference/** -text
 docs/reference/** -text

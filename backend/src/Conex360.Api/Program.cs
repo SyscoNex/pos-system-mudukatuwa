@@ -1,8 +1,11 @@
 using System.Diagnostics;
+using System.Net;
 using Conex360.Api.Errors;
 using Conex360.Api.Health;
+using Conex360.Api.Identity;
 using Conex360.Api.Serialization;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,8 +40,26 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new UInt64StringConverter());
 });
 builder.Services.AddOpenApi();
+builder.AddConexIdentity();
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
+    options.ForwardLimit = 1;
+    options.KnownProxies.Clear();
+    options.KnownIPNetworks.Clear();
+    // Keep an explicit deny-all placeholder when no proxy is configured.
+    options.KnownProxies.Add(IPAddress.None);
+    foreach (var address in builder.Configuration.GetSection("Proxy:KnownProxies").Get<string[]>() ?? [])
+        options.KnownProxies.Add(IPAddress.Parse(address));
+});
 
 var app = builder.Build();
+if (args.Any(a => a.StartsWith("--admin-", StringComparison.Ordinal)))
+{
+    Environment.ExitCode = await AdministrativeCommands.RunAsync(app.Services, app.Configuration, args);
+    return;
+}
+app.UseForwardedHeaders();
 
 app.Use(async (context, next) =>
 {
@@ -67,12 +88,17 @@ app.UseExceptionHandler(new ExceptionHandlerOptions
     SuppressDiagnosticsCallback = _ => true
 });
 app.UseStatusCodePages();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseRateLimiter();
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi().AllowAnonymous();
 }
 
 app.MapFoundationHealth();
+app.MapIdentity();
+app.MapFallback("/{**path}", () => Results.NotFound()).AllowAnonymous();
 app.Run();
 
 public partial class Program;

@@ -41,15 +41,15 @@ const journey = [
     icon: Code2,
     title: "The foundation",
     detail: "Application shell & API conventions",
-    status: "Current",
-    current: true,
+    status: "Complete",
+    current: false,
   },
   {
     icon: KeyRound,
     title: "Your business, set up",
     detail: "Sign-in, business profile & access",
-    status: "Next",
-    current: false,
+    status: "Current",
+    current: true,
   },
   {
     icon: Boxes,
@@ -226,7 +226,9 @@ export function FoundationWorkspace() {
               <span>Quick guide</span>
             </button>
             <span className="topbar-brand" aria-label="SysConex">
-              SC
+              <a href="/login" aria-label="Sign in to Conex360">
+                SC
+              </a>
             </span>
           </div>
         </header>
@@ -415,7 +417,8 @@ export function FoundationWorkspace() {
                 <h3>Business data</h3>
                 <p className="status-value">A clean slate</p>
                 <p className="status-description">
-                  No database has been initialized. Business setup comes next.
+                  Process health is available. Sign in for your business
+                  workspace.
                 </p>
                 <div className="card-meta">
                   MySQL 8.4 <span>·</span> Future milestone
@@ -531,7 +534,7 @@ export function FoundationWorkspace() {
         <h2 id="guide-title">Your foundation, locally.</h2>
         <p>
           This preview connects the application shell to the .NET health
-          endpoint. Authentication and business data come in the next milestone.
+          endpoint. Sign in to access your configured business workspace.
         </p>
         <h3>Start the API</h3>
         <code>dotnet run --project backend/src/Conex360.Api</code>

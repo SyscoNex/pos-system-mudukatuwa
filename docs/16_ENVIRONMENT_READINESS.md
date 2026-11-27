@@ -1,4 +1,7 @@
 # Current foundation environment — 25 November 2026
+
+## P1-02 recheck — 28 November 2026
+SDK 10.0.404/runtime 10.0.15, workspace Node 26.13.1/npm 11.20.0 and all foundation dependency pins retained. Machine Node 22.9.0 unchanged. Docker Linux engine available; original foundation containers remained running. New isolated conex360-auth-review uses MySQL 8.4.13.1 by digest, no published SQL port, separate volumes/secrets, review HTTP 3602/API 5182. MySqlConnector 3.0.0 and SkiaSharp/native 4.158.0 added only for real P1-02 requirements. Owner approved reviewed migrations 0000–0002 and synthetic tests; production/other databases remain excluded. Actual commands/results and runbook: [docs/19](19_AUTH_BUSINESS_IMPLEMENTATION.md). Tables below describe the earlier foundation observation, not current absence of database work.
 This current recheck supersedes the earlier planning snapshot preserved below.
 
 | Component | Current foundation result |

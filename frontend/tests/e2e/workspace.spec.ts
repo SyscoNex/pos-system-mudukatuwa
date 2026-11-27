@@ -16,7 +16,7 @@ test("the built workspace connects to the real .NET API", async ({
   ).toBeVisible();
   await expect(
     page.getByText(
-      "No database has been initialized. Business setup comes next.",
+      "Process health is available. Sign in for your business workspace.",
     ),
   ).toBeVisible();
   const health = await request.get("/api/v1/health");

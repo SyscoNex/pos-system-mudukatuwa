@@ -1,4 +1,8 @@
 # Phase 1 schema differences and future extension
+
+## P1-02 implemented refinement
+Migrations 0000–0002 introduce seven application tables and separate checksum journal. auth_sessions has hashed secret/stamp, selected-membership/user FK and context revision. Unique tenant operation/code + atomic provisioning provides replay without idempotency_keys now. Companies has one-tenant unique key, scoped logo key/version and future currency-lock latch. Users have persistent lockout/forced change; global security_events and scoped audit_events are append-only. Onboarding has no locations/stock/finance dependency. No customer-display table. Remaining tables are proposed, introduced by additive/backfill/constraint migrations retaining stable scoped IDs. Exact SQL: docs/21; historical SQL unchanged.
+
 **Starting design approved 25 November 2026. No DDL execution is authorized by P1-01; additional tables need actual justification/review.**
 
 The 160-table reference is unchanged. Phase 1 proposes 38 application tables: 33 adapted historical tables and five new ones; 127 historical tables are deferred or folded into simpler structures. This inventory enumerates every original table so omitted dependencies cannot silently return. Reuse of a name does not mean byte-compatible DDL.

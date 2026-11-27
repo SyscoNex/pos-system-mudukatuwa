@@ -1,12 +1,16 @@
 # Revised Phase 1 implementation plan
-**Approved 25 November 2026. P1-01 foundation implementation authorized; stop for review before P1-02. Database execution remains gated. Actual progress: [foundation report](18_FOUNDATION_IMPLEMENTATION.md).**
+
+## P1-08d customer display
+Alongside billing implement Open Customer Display and read-only fullscreen route, random per-checkout BroadcastChannel, allowlisted DTO, provisional versus committed totals/payment, transaction/revision ordering, resync/heartbeat and clear/reset. Test two windows, multiple cashier instances, stale/reconnect and logout/context isolation. No real-time server or pairing table initially. [Full specification](20_CUSTOMER_DISPLAY.md).
+
+**Phase 1 approved; P1-01 accepted. P1-02a/b/c authorized 28 November 2026, with separate approval for 0000–0002 in conex360-auth-review and synthetic tests. Stop before P1-03. Actual progress: docs/19_AUTH_BUSINESS_IMPLEMENTATION.md.**
 
 ## Goal and delivery boundary
 Deliver a useful online operational system for a coconut manufacturer with one or two operators. Accuracy/isolation/transactional history remain essential; full accounting, advanced manufacturing/QC and offline/integration platforms are future scope. Requirements: docs/01_REQUIREMENTS.md. Proposed 38-table design: docs/03_DATABASE_DESIGN.md. Original requirements and SQL remain preserved.
 
 ## Approval boundaries
-1. The owner approved revised scope/design and P1-01 only. Stop at foundation completion for review; do not infer permission for all ten stages.
-2. Before P1-02/database work, review that slice's concrete DDL, constraints/guards/setup and target plan. Execute only after explicit database authorization; no production access.
+1. The owner accepted P1-01 and authorized P1-02a/b/c only. Stop at P1-02 completion for review; do not infer permission for all stages.
+2. The owner approved docs/21's concrete DDL/constraints/safeguards and isolated conex360-auth-review execution/synthetic tests. All other database execution/production remains separately gated.
 3. Before each later posting slice approve its business rules, schema differences and focused tests. A planned future feature does not authorize implementation now.
 4. Production deployment and live data import remain separate gates after operational acceptance/recovery verification.
 
@@ -56,4 +60,4 @@ Before manufacture/POS: completed-run fit and waste policy; permitted discounts/
 Before launch: hosting/DNS/access, backup location/keys/retention/loss window/recovery target and client acceptance. No tax/accountant/journal/period/offline readiness prerequisite for stock; do not claim receipts meet an unreviewed legal use.
 
 ## Validation and change report
-Original documentation revision archived/hash-verified enterprise files and enumerated table dispositions without code. P1-01 subsequently created application/config/test files and installed project dependencies under explicit authorization. See the foundation report for actual build/browser/container results. Historical SQL is untouched; no database initialization/migration, inventory concurrency, hardware or restore test is claimed.
+The original revision archived/hash-verified enterprise references; P1-01 delivered the accepted foundation. P1-02 now introduces reviewed identity/business SQL and functionality under explicit code and isolated execution approvals; actual evidence is in docs/19. Historical SQL remains untouched. Inventory concurrency, hardware integration, full backup restore and production launch are not claimed by P1-02.

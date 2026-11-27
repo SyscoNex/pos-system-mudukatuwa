@@ -1,5 +1,9 @@
 # Phase 1 architecture
-P1-01 now contains the four backend projects, Next.js App Router shell, process-health API and isolated local runtime configuration. Domain/Application/Infrastructure intentionally contain no business services or database adapter yet. See [foundation evidence](18_FOUNDATION_IMPLEMENTATION.md).
+
+## P1-08 display topology
+Same-computer dual-monitor cashier/customer routes use a scoped BroadcastChannel and sanitized display DTO; .NET confirms prices/totals/payments, display executes no business commands. No real-time server or synchronization table. [Protocol and isolation specification](20_CUSTOMER_DISPLAY.md).
+
+The four-project foundation is retained. P1-02 adds focused Identity/Business use cases, parameterized MySqlConnector adapters, private logo storage and .NET cookie authorization; see [implementation evidence](19_AUTH_BUSINESS_IMPLEMENTATION.md). No additional services/ORM were introduced.
 The agreed stack is ASP.NET Core/.NET 10 LTS, Next.js/TypeScript, MySQL 8.4/InnoDB, a modular monolith, GitHub and Linux VPS deployment. Docker/Compose are appropriate for local MySQL and repeatable hosting.
 
 ## Small runtime
@@ -48,7 +52,7 @@ Domain depends on no infrastructure. Application uses Domain and only necessary 
 Inventory is the only stock writer. Application use cases share one connection/transaction for documents, Inventory, relevant manual payment records, audit and idempotency. No Finance module or journal/period validation is required in Phase 1. No waiting for printer/customer/network service inside a DB transaction.
 
 ## Web/auth boundary
-Approved direction is .NET cookie authentication with server-revocable sessions, ASP.NET Core password hashing/Data Protection and static Administrator/Staff policies; implementation starts only after foundation review. Prefer browser-to-/api requests for protected feature data, avoiding an unnecessary BFF/session authority in Next.js.
+P1-02 implements .NET cookie authentication with server-revocable sessions, ASP.NET Core password hashing/Data Protection and static Administrator/Staff policies. Browser-to-/api protected reads retain .NET authority. Default-deny endpoint policies, context revisions and SQL revalidation prevent unauthorized or stale scope writes.
 Public shell/assets may be cached; private API/HTML/RSC payloads may not. Any server-side API read forwards only the current user's required cookie/context to an internal allowlisted API address, never a privileged service credential.
 Nginx reserves /api for .NET and routes pages/assets to the Node production runtime. Test exact path/forwarded HTTPS behavior and cookie CSRF controls.
 

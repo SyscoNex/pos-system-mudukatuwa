@@ -1,5 +1,5 @@
 # Phase 1 database boundary
-The Phase 1 starting design is approved in [database design](../docs/03_DATABASE_DESIGN.md), with complete historical mapping in [schema differences](../docs/15_PHASE1_SCHEMA_MAPPING.md). No active migration or DDL for it is supplied yet. P1-01 contains no MySQL dependency, connection, service, volume or initialization; database work begins only after the next slice's DDL/target authorization.
+The Phase 1 starting design and historical mapping are in docs/03 and docs/15. P1-02 supplies only migrations/0000–0002: seven identity/business/security tables and a checksum journal. The owner separately approved execution in conex360-auth-review, database conex360_auth_review, and synthetic tests; this does not approve any production/other target. Exact review and runbook: docs/21 and docs/19. Original foundation database-disabled mode remains.
 
 ## Independent operational database
 Propose 38 application tables, introduced by functional slice, plus migration-tool bookkeeping if needed. Retain tenant/company keys but provision one company per tenant. No accounts, journals, accounting periods, WIP, tax, offline or enterprise seed dependencies.

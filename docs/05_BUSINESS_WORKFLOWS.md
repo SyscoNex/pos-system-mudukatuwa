@@ -1,4 +1,6 @@
 # Phase 1 operational workflows
+
+P1-08 checkout includes the mandatory Customer Facing Display: open a separate same-computer window, publish sanitized provisional cart snapshots, replace totals/payment only after backend confirmation, show thank-you and reset. Cancellation/logout/outlet/context changes clear the display; stale/reconnected windows request a current snapshot with transaction/revision checks. No display command mutates business data. [Full specification and acceptance](20_CUSTOMER_DISPLAY.md). No checkout/display operational code belongs to P1-02.
 All posting uses the common transaction in docs/04_INVENTORY_AND_TRANSFERS.md. No workflow calls journals, accounting periods, tax engines or external payment providers.
 
 ## Setup and users
