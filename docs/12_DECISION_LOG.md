@@ -1,5 +1,7 @@
 # Decision log — Phase 1
 
+P33 (pending inventory policy and execution approval). P1-04 accepted and P1-05 code authorized. The proposed rounding, expiry, opening eligibility and Staff receipt-cost policies, migrations and targets are in [the P1-05 review](26_P1_05_DATABASE_REVIEW.md).
+
 P31 (owner-authorized/implemented): P1-03 accepted; P1-04a/b/c plus docs/24's 0006–0007, catalogue grants, review upgrade and private p104-clean tests separately approved on 28 November 2026. Stop before P1-05. Six scoped tables; no new package, ORM or service. This supersedes earlier milestone gates below.
 
 P32 (approved catalogue safeguards): Base UOM is immutable from creation, stricter than the original after-use proposal; correct a wrong base identity with a replacement SKU. First configured price including zero locks company currency. Both refinements were disclosed in the approved database question/package. Exact explicit factors allow count packaging without density assumptions or a different-SKU manufacturing shortcut. Blank and zero prices differ. Staff DTOs follow transaction-revalidated membership. Exact before/after product/unit/price/barcode audit snapshots use the existing private audit table. Future document tables must add immutable transaction snapshots and used-SKU/tracking checks. Evidence/open decisions: docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md.

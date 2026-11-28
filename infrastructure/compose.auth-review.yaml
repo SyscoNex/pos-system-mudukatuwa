@@ -14,6 +14,7 @@ services:
       - ./mysql/grant-runtime.sh:/opt/conex360/grant-runtime.sh:ro
       - ./mysql/grant-organization.sh:/opt/conex360/grant-organization.sh:ro
       - ./mysql/grant-catalog.sh:/opt/conex360/grant-catalog.sh:ro
+      - ./mysql/grant-inventory.sh:/opt/conex360/grant-inventory.sh:ro
     command: [--general-log=OFF, --slow-query-log=OFF, --default-time-zone=+00:00, --log-bin-trust-function-creators=ON]
     expose: ["3306"]
     # Deliberately NO published ports. Tools/API run on the private project network.

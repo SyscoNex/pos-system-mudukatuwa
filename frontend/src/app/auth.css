@@ -873,3 +873,38 @@
 .catalog-remove {
   color: #a83535;
 }
+.inventory-panel,
+.inventory-form,
+.inventory-results {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.inventory-nav,
+.inventory-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+}
+.inventory-nav a {
+  font-weight: 600;
+}
+.inventory-document .inventory-controls {
+  margin-top: 1rem;
+}
+@media print {
+  body:has(.inventory-document) .private-sidebar,
+  body:has(.inventory-document) .private-header,
+  body:has(.inventory-document) .private-body > footer,
+  body:has(.inventory-document) .inventory-panel > :not(.inventory-document),
+  .inventory-document .inventory-controls {
+    display: none;
+  }
+  body:has(.inventory-document) .private-workspace {
+    display: block;
+  }
+  .inventory-document .organization-table-wrap {
+    overflow: visible;
+  }
+}

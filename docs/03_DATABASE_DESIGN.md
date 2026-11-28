@@ -1,5 +1,7 @@
 # Phase 1 database starting design
 
+P1-05 prepares nine application tables in 0008–0009 plus a scoped location key. Opening/GRN posting uses one ledger entry per input line and bucket, durable actor/command replay, and immutable posted facts. See [the proposed SQL and policies](26_P1_05_DATABASE_REVIEW.md).
+
 ## P1-04 implemented refinement
 Separately approved migrations 0006–0007 introduce units, item_categories, items, item_units, item_barcodes and parties: 17 application tables in total, plus schema_migrations. All six use scoped company FKs, unique machine keys, row versions and immutable ownership/no-delete guards. Details: docs/24_P1_04_DATABASE_REVIEW.md; evidence: docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md. Existing SQL 0000–0005 is unchanged. No compulsory seed; standard UOM setup is an optional idempotent Administrator command.
 

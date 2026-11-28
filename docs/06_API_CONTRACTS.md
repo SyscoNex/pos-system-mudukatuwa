@@ -1,5 +1,7 @@
 # Proposed Phase 1 API contracts
 
+P1-05 adds guarded /api/v1/inventory routes. Opening and receipt commands carry string IDs and decimals, expected catalogue/warehouse versions and a durable UUID. History uses cursor pagination and current outlet scope. See [the API handoff](25_INVENTORY_INCOMING_IMPLEMENTATION.md).
+
 ## Implemented P1-04 catalogue
 Base /api/v1/catalog: GET/POST/PUT units, categories, suppliers and products (PUT uses /{id}); POST units/defaults; GET products/{id}; GET barcode?value=exact; POST products/{id}/convert. All require current Business context; all master-data writes require Administrator and CSRF. List/detail/exact conversion reads are available to Staff, active records only; convert is a protected POST with CSRF but no business mutation. Admin product detail includes purchasePrice; Staff detail and barcode DTOs omit that field entirely. Prices/factors/quantities and unsigned IDs remain JSON strings; null price differs from zero. Product writes contain the complete retained, versioned unit/barcode aggregate. Ownership and base-unit identities cannot be reassigned. Full endpoint/response details and usage: docs/23. Later proposals below are not implemented until their milestone.
 

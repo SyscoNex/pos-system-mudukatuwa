@@ -1,4 +1,6 @@
 # Phase 1 inventory, transfers and operational costs
+
+P1-05 prepares the receiving and opening policy in [the database review](26_P1_05_DATABASE_REVIEW.md), pending approval. Entered quantity × entered-unit cost is the canonical carried value. The rounded base-unit cost is a reference figure. This supersedes the earlier incoming formula below for the prepared slice.
 **Approved Phase 1 stock/cost direction; detailed business policies still need validation with the dependent slice.** Inventory can post independently of financial accounting. No journal, chart of accounts or financial-period dependency exists. No inventory code is implemented in P1-01.
 
 ## Stock and eligibility

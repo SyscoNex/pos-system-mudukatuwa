@@ -1,0 +1,6 @@
+# Private clean-install target. Use only after separate approval.
+services:
+  tools:
+    image: conex360-auth-review-tools
+    volumes:
+      - ../artifacts/p105-clean:/evidence

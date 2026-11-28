@@ -1,4 +1,6 @@
 # AGENTS.md — Conex360 Phase 1
+
+P1-04 accepted. P1-05 inventory implementation authorized on 28 November 2026. [The concrete SQL and posting policies](docs/26_P1_05_DATABASE_REVIEW.md) require separate approval before execution and enablement. Stop at P1-05 for owner review. Preserve Workbench localhost:3307 and exclude SchoolGrid.
 These instructions apply to the repository. Owner: SysConex. Current scope was revised by the product owner on 25 November 2026. Deliver a reliable operational system for a coconut manufacturer with one or two operators; retain a maintainable product foundation.
 
 ## Authority and current task gate

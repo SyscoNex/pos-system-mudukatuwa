@@ -120,6 +120,7 @@ public sealed class OrganizationStore(Database database, AuthPolicy policy, Orga
             else
             {
                 var old = await Branch(c, t, current, id.Value, false, ct); if (old.Version != e.ExpectedVersion) throw Conflict();
+                if (!e.IsActive) await InventoryStore.RequireEmptyLocationAsync(c, t, current.Selected!, null, id, ct);
                 await Sql.Execute(c, t, "UPDATE branches SET code=@code,name=@name,address=@address,phone=@phone,description=@description,is_active=@active,updated_at=@now,row_version=row_version+1 WHERE tenant_id=@tenant AND company_id=@company AND id=@id", ct, [.. Scope(current), ("id", id), ("code", code), ("name", e.Name.Trim()), ("address", e.Address), ("phone", e.Phone), ("description", e.Description), ("active", e.IsActive), ("now", now)]);
                 if (old.IsActive != e.IsActive)
                 {
@@ -161,6 +162,7 @@ public sealed class OrganizationStore(Database database, AuthPolicy policy, Orga
         {
             _ = await Branch(c, t, current, e.BranchId, true, ct);
             var all = await Warehouses(c, t, current, e.BranchId, ct); var old = id is null ? null : all.SingleOrDefault(w => w.Id == id) ?? throw Missing();
+            if (id is not null && !e.IsActive) await InventoryStore.RequireEmptyLocationAsync(c, t, current.Selected!, id, null, ct);
             if (old is not null && old.Version != e.ExpectedVersion) throw Conflict();
             if (!e.IsActive && e.IsDefault) throw Invalid("An active outlet needs an active default warehouse.");
             if (old?.IsDefault == true && !e.IsDefault)
