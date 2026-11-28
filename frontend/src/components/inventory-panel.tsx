@@ -472,6 +472,12 @@ export function InventoryPanel({
             </p>
           )}
           {detail.notes && <p>{detail.notes}</p>}
+          {detail.document.type === "PROD" && (
+            <p>
+              See <Link href="/inventory/manufacturing">Manufacturing</Link> for
+              input groups, lot lineage and output details.
+            </p>
+          )}
           <div className="organization-table-wrap">
             <table className="organization-table">
               <thead>
@@ -495,15 +501,23 @@ export function InventoryPanel({
                       {line.manufacturedOn} {line.expiresOn}
                     </td>
                     <td>
-                      {line.quantity} {line.unit}
+                      {detail.document.type === "PROD" ? (
+                        "—"
+                      ) : (
+                        <>
+                          {line.quantity} {line.unit}
+                        </>
+                      )}
                     </td>
                     <td>
                       {line.baseQuantity} (× {line.factor})
                     </td>
                     {admin && (
                       <td>
-                        {line.enteredUnitCost} per unit / {line.carriedValue}{" "}
-                        carried
+                        {line.enteredUnitCost != null && (
+                          <>{line.enteredUnitCost} per unit / </>
+                        )}
+                        {line.carriedValue} carried
                       </td>
                     )}
                   </tr>

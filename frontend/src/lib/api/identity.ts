@@ -103,6 +103,7 @@ export function safeReturnPath(value: string | null): string {
     "/inventory/adjustments",
     "/inventory/waste",
     "/inventory/counts",
+    "/inventory/manufacturing",
     "/account/password",
     "/select-business",
   ].includes(value ?? "")

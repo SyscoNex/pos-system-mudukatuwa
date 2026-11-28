@@ -1,5 +1,7 @@
 # Phase 1 roadmap
 
+P1-06 is accepted. P1-07 is complete with the approved upgrade, private clean installation, MySQL integrity and browser workflow verified. P1-08 follows owner review. [Current handoff](29_MANUFACTURING_IMPLEMENTATION.md)
+
 P1-05 is accepted. P1-06 is complete with the approved upgrade, private clean install, MySQL integrity and browser workflow verified. P1-07 follows owner review. [Current handoff](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
 
 P1-05 is implemented and verified under its isolated migration and posting approval. P1-06 follows owner review. [Inventory and receiving results](25_INVENTORY_INCOMING_IMPLEMENTATION.md)

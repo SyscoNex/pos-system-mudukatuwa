@@ -1,5 +1,7 @@
 # AGENTS.md — Conex360 Phase 1
 
+P1-06 is accepted. P1-07 and its approved migration 0012, scoped runtime grants and isolated tests are complete. Stop before P1-08 for owner review. Preserve Workbench on localhost:3307, historical references, and SchoolGrid. [Current handoff](docs/29_MANUFACTURING_IMPLEMENTATION.md) · [SQL review](docs/30_P1_07_DATABASE_REVIEW.md)
+
 P1-05 is accepted. P1-06 implementation and separate 0010–0011 execution were approved for conex360-auth-review and private conex360-p106-clean. Both schema installations passed. Stop before P1-07. Preserve read-only Workbench on localhost:3307 and exclude SchoolGrid and production. [Current implementation](docs/27_STOCK_OPERATIONS_IMPLEMENTATION.md) · [SQL review](docs/28_P1_06_DATABASE_REVIEW.md)
 
 P1-05 is implemented and verified. SysConex approved the inventory policies, SQL 0008–0009 and associated grants on 28 November 2026 for conex360-auth-review and private conex360-p105-clean. Stop at P1-05 for owner review. Preserve Workbench localhost:3307 and exclude SchoolGrid. [Implementation handoff](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md)

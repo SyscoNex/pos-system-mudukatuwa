@@ -39,7 +39,9 @@ import {
 import { CatalogPanel } from "./catalog-panel";
 import { InventoryPanel, type InventoryMode } from "./inventory-panel";
 import { StockOperationsPanel, type StockMode } from "./stock-operations-panel";
+import { ManufacturingPanel } from "./manufacturing-panel";
 type Mode =
+  | "manufacturing"
   | "login"
   | "home"
   | "business"
@@ -429,6 +431,14 @@ export function AuthWorkspace({
         <nav aria-label="Application">
           {session.selectedMembershipId && !session.user.mustChangePassword && (
             <Link
+              href="/inventory/manufacturing"
+              aria-current={mode === "manufacturing" ? "page" : undefined}
+            >
+              <LayoutGrid size={18} /> Manufacturing
+            </Link>
+          )}
+          {session.selectedMembershipId && !session.user.mustChangePassword && (
+            <Link
               href="/inventory"
               aria-current={mode === "inventory" ? "page" : undefined}
             >
@@ -548,6 +558,14 @@ export function AuthWorkspace({
           </details>
         </header>
         <main id="workspace-main" className="private-main">
+          {mode === "manufacturing" && business && (
+            <ManufacturingPanel
+              key={session.contextVersion}
+              session={session}
+              currency={business.currencyCode}
+              timezone={business.timezone}
+            />
+          )}
           {(mode === "transfers" ||
             mode === "adjustments" ||
             mode === "waste" ||

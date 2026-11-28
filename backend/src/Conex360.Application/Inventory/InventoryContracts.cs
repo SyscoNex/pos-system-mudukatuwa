@@ -5,6 +5,7 @@ namespace Conex360.Application.Inventory;
 
 public sealed class InventorySettings
 {
+    public bool ManufacturingEnabled { get; set; }
     public bool StockOperationsEnabled { get; set; }
     public bool Enabled { get; set; }
 }

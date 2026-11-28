@@ -1,5 +1,7 @@
 # Decision log — Phase 1
 
+P35 (approved and verified, 29 November 2026). SysConex approved migration 0012, the scoped runtime grant and two isolated targets. P1-07 uses actual same-warehouse materials, one tracked or SYSTEM output, exact carried input value and one-hop tracked lot trace. Both database installations, focused integrity tests and the browser production workflow passed. [Migration and policy review](30_P1_07_DATABASE_REVIEW.md) · [Implementation results](29_MANUFACTURING_IMPLEMENTATION.md)
+
 P34 (approved and verified, 29 November 2026). SysConex approved migrations 0010–0011 and runtime grants on conex360-auth-review and private conex360-p106-clean. Whole-request FEFO reservation, source cancellation of the undisbursed remainder and return into HOLD at the original source were approved. Both schema installations, focused MySQL verification and the browser transfer and stock-take workflow passed. [Policy and migration review](28_P1_06_DATABASE_REVIEW.md)
 
 P33 (approved and verified, 28 November 2026). SysConex approved all P1-05 inventory policies and separately authorized migrations 0008–0009 and runtime grants on conex360-auth-review and private conex360-p105-clean. Both installations and focused MySQL tests passed. Posting was enabled on the review API after verification and the browser receipt workflow passed. P1-06 follows owner review. [Approved policies](26_P1_05_DATABASE_REVIEW.md) · [Verification results](25_INVENTORY_INCOMING_IMPLEMENTATION.md)

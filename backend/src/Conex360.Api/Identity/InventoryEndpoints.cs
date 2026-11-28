@@ -38,5 +38,6 @@ public static class InventoryEndpoints
 
         if (!app.Services.GetRequiredService<InventorySettings>().Enabled) group.ExcludeFromDescription();
         group.MapStockOperations(app.Services.GetRequiredService<InventorySettings>().StockOperationsEnabled);
+        group.MapManufacturing(app.Services.GetRequiredService<InventorySettings>().ManufacturingEnabled);
     }
 }

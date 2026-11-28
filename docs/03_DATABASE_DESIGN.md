@@ -1,5 +1,7 @@
 # Phase 1 database starting design
 
+P1-07 prepares 0012 with production_events, explicit input and output line roles, and one scoped output event-to-entry link. Previous lines and lots have no inferred production provenance. [Concrete SQL review](30_P1_07_DATABASE_REVIEW.md)
+
 P1-06 prepares seven stock operation tables. New migrations extend the transit bucket constraint and add scoped transfer/count relationships without changing previous migration checksums. [Concrete SQL review](28_P1_06_DATABASE_REVIEW.md)
 
 P1-05 prepares nine application tables in 0008–0009 plus a scoped location key. Opening/GRN posting uses one ledger entry per input line and bucket, durable actor/command replay, and immutable posted facts. See [the proposed SQL and policies](26_P1_05_DATABASE_REVIEW.md).

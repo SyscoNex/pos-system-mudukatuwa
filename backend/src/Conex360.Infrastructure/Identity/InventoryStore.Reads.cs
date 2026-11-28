@@ -83,13 +83,13 @@ public sealed partial class InventoryStore
                 r => new { Document = Summary(r), Notes = Sql.Text(r, "notes") }, ("id", id)) ?? throw Missing();
             var lines = await s.List("""
                 SELECT sku,item_name,unit_name,lot_code,supplier_lot,manufactured_on,expires_on,stock_condition,entered_quantity,
-                  conversion_factor,base_quantity,CASE WHEN @admin=1 THEN entered_unit_cost END AS visible_cost,
+                  conversion_factor,base_quantity,CASE WHEN @admin=1 AND @type<>'PROD' THEN entered_unit_cost END AS visible_cost,
                   CASE WHEN @admin=1 THEN carried_value END AS visible_value
                 FROM document_lines WHERE tenant_id=@tenant AND company_id=@company AND document_id=@id ORDER BY line_number
                 """, r => new PostedLine(r.GetString("sku"), r.GetString("item_name"), r.GetString("unit_name"), r.GetString("lot_code"),
                 Sql.Text(r, "supplier_lot"), Day(r, "manufactured_on"), Day(r, "expires_on"), r.GetString("stock_condition"),
                 r.GetDecimal("entered_quantity"), r.GetDecimal("conversion_factor"), r.GetDecimal("base_quantity"),
-                Amount(r, "visible_cost"), Amount(r, "visible_value")), ("id", id));
+                Amount(r, "visible_cost"), Amount(r, "visible_value")), ("id", id), ("type", header.Document.Type));
             return new ReceiptDetail(header.Document, header.Notes, lines);
         }, ct);
 
@@ -108,7 +108,10 @@ public sealed partial class InventoryStore
                 r.GetDecimal("quantity_base"), Amount(r, "visible_value")), ("warehouse", warehouseId), ("before", before)), ct);
 
     public Task<IReadOnlyList<BalanceDifference>> ReconcileAsync(SessionData session, ulong? warehouseId, ulong? after, CancellationToken ct) =>
-        InScope(session, true, s => s.List("""
+        InScope(session, true, s => BalanceDifferences(s, warehouseId, after), ct);
+
+    private static Task<IReadOnlyList<BalanceDifference>> BalanceDifferences(Scope s, ulong? warehouseId, ulong? after) =>
+        s.List("""
             SELECT k.id,COALESCE(SUM(e.quantity_base),0) AS ledger_quantity,COALESCE(SUM(e.value_delta),0) AS ledger_value,
                 b.on_hand_base,b.operational_value
             FROM stock_buckets k
@@ -123,5 +126,5 @@ public sealed partial class InventoryStore
                 OR NOT (MAX(e.id) <=> b.last_entry_id)
             ORDER BY k.id LIMIT 50
             """, r => new BalanceDifference(r.GetUInt64("id"), r.GetDecimal("ledger_quantity"), Amount(r, "on_hand_base"),
-                r.GetDecimal("ledger_value"), Amount(r, "operational_value")), ("warehouse", warehouseId), ("after", after ?? 0)), ct);
+                r.GetDecimal("ledger_value"), Amount(r, "operational_value")), ("warehouse", warehouseId), ("after", after ?? 0));
 }

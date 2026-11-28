@@ -10,7 +10,7 @@ using MySqlConnector;
 
 namespace Conex360.Infrastructure.Identity;
 
-public sealed partial class InventoryStore(Database database, AuthPolicy auth, InventorySettings settings, TimeProvider clock) : IInventoryStore, IStockOperations
+public sealed partial class InventoryStore(Database database, AuthPolicy auth, InventorySettings settings, TimeProvider clock) : IInventoryStore, IStockOperations, IManufacturingStore
 {
     private static AppFailure Invalid(string message) => new(400, "INVALID_INVENTORY", message);
     private static AppFailure Missing() => new(404, "NOT_FOUND", "The stock record or warehouse is unavailable.");

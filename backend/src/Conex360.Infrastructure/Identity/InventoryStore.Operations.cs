@@ -79,16 +79,18 @@ public sealed partial class InventoryStore
         return existing?.Result;
     }
 
-    private static async Task<PostedReceipt> Document(Scope s, Warehouse warehouse, string command, string? notes, decimal total = 0)
+    private static async Task<PostedReceipt> Document(Scope s, Warehouse warehouse, string command, string? notes, decimal total = 0,
+        DateOnly? businessDate = null)
     {
         var business = await Business(s);
-        var number = await NextNumber(s, command, business.Today.Year);
+        var date = businessDate ?? business.Today;
+        var number = await NextNumber(s, command, date.Year);
         var id = await s.Insert("""
             INSERT INTO documents(tenant_id,company_id,document_type,document_number,warehouse_id,actor_membership_id,warehouse_name,warehouse_code,
               business_date,posted_at,currency_code,currency_minor_units,notes,operational_total)
             VALUES(@tenant,@company,@command,@number,@warehouse,@actor,@name,@code,@date,@now,@currency,@minor,@notes,@total)
             """, ("command", command), ("number", number), ("warehouse", warehouse.Id), ("name", warehouse.Name), ("code", warehouse.Code),
-            ("date", business.Today), ("now", s.Now), ("currency", business.Currency), ("minor", business.MinorUnits), ("notes", notes), ("total", total));
+            ("date", date), ("now", s.Now), ("currency", business.Currency), ("minor", business.MinorUnits), ("notes", notes), ("total", total));
         return new(id, number);
     }
 
@@ -172,18 +174,25 @@ public sealed partial class InventoryStore
             """, ("warehouse", warehouse), ("location", location), ("item", item), ("lot", lot.Id), ("kind", kind), ("condition", condition));
     }
 
+    private sealed record ProductionTag(string Role, int? Group);
+
     private static Task<ulong> MakeLine(Scope s, ulong doc, ulong warehouse, int index, StockUnit unit, StockLot? lot,
-        string condition, decimal entered, decimal quantity, decimal value, decimal unitCost = 0) =>
-        s.Insert("""
+        string condition, decimal entered, decimal quantity, decimal value, decimal unitCost = 0, ProductionTag? production = null)
+    {
+        var columns = production is null ? "" : ",production_role,production_input_group";
+        var values = production is null ? "" : ",@role,@group";
+        return s.Insert($"""
             INSERT INTO document_lines(tenant_id,company_id,document_id,warehouse_id,item_id,item_unit_id,lot_id,line_number,
               sku,item_name,unit_code,unit_name,lot_code,supplier_lot,manufactured_on,expires_on,stock_condition,entered_quantity,
-              conversion_factor,base_quantity,entered_unit_cost,base_unit_cost,carried_value)
+              conversion_factor,base_quantity,entered_unit_cost,base_unit_cost,carried_value{columns})
             VALUES(@tenant,@company,@doc,@warehouse,@item,@unit,@lot,@index,@sku,@name,@code,@unitName,@batch,@supplier,
-              @manufactured,@expiry,@condition,@entered,@factor,@quantity,@unitCost,@unitCost,@value)
+              @manufactured,@expiry,@condition,@entered,@factor,@quantity,@unitCost,@unitCost,@value{values})
             """, ("doc", doc), ("warehouse", warehouse), ("item", unit.ItemId), ("unit", unit.Id), ("lot", lot?.Id), ("index", index),
             ("sku", unit.Sku), ("name", unit.ItemName), ("code", unit.Code), ("unitName", unit.Name), ("batch", lot?.Code ?? ""),
             ("supplier", lot?.Supplier), ("manufactured", lot?.Manufactured), ("expiry", lot?.Expiry), ("condition", condition),
-            ("entered", entered), ("factor", unit.Factor), ("quantity", quantity), ("value", value), ("unitCost", unitCost));
+            ("entered", entered), ("factor", unit.Factor), ("quantity", quantity), ("value", value), ("unitCost", unitCost),
+            ("role", production?.Role), ("group", production?.Group));
+    }
 
     private static async Task<ulong> MoveLine(Scope s, ulong doc, ulong warehouse, int index, ulong bucket, StockUnit unit,
         StockLot lot, string condition, decimal quantity, decimal value, bool issue, decimal? entered = null, decimal unitCost = 0)

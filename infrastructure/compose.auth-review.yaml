@@ -16,6 +16,7 @@ services:
       - ./mysql/grant-catalog.sh:/opt/conex360/grant-catalog.sh:ro
       - ./mysql/grant-inventory.sh:/opt/conex360/grant-inventory.sh:ro
       - ./mysql/grant-stock-operations.sh:/opt/conex360/grant-stock-operations.sh:ro
+      - ./mysql/grant-manufacturing.sh:/opt/conex360/grant-manufacturing.sh:ro
     command: [--general-log=OFF, --slow-query-log=OFF, --default-time-zone=+00:00, --log-bin-trust-function-creators=ON]
     expose: ["3306"]
     # Deliberately NO published ports. Tools/API run on the private project network.
@@ -62,6 +63,7 @@ services:
       Catalog__Enabled: "true"
       Inventory__Enabled: "${CONEX360_REVIEW_INVENTORY_ENABLED:-true}"
       Inventory__StockOperationsEnabled: "${CONEX360_REVIEW_STOCK_OPERATIONS_ENABLED:-false}"
+      Inventory__ManufacturingEnabled: "${CONEX360_REVIEW_MANUFACTURING_ENABLED:-false}"
       Authentication__AllowInsecureDevelopmentCookies: "true"
       Authentication__AllowedOrigins__0: http://127.0.0.1:3602
       Database__Enabled: "true"
