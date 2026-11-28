@@ -6,14 +6,14 @@ Current authorization supersedes the earlier P1-02 stop: P1-03a/b and separate S
 ## P1-08d customer display
 Alongside billing implement Open Customer Display and read-only fullscreen route, random per-checkout BroadcastChannel, allowlisted DTO, provisional versus committed totals/payment, transaction/revision ordering, resync/heartbeat and clear/reset. Test two windows, multiple cashier instances, stale/reconnect and logout/context isolation. No real-time server or pairing table initially. [Full specification](20_CUSTOMER_DISPLAY.md).
 
-**P1-02 accepted. P1-03a/b and isolated 0003–0005 execution approved 28 November 2026. Stop before P1-04. Actual progress: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.**
+**P1-03 accepted. P1-04a/b/c and isolated 0006–0007 execution approved 28 November 2026. Stop before P1-05. Actual progress: docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md.**
 
 ## Goal and delivery boundary
 Deliver a useful online operational system for a coconut manufacturer with one or two operators. Accuracy/isolation/transactional history remain essential; full accounting, advanced manufacturing/QC and offline/integration platforms are future scope. Requirements: docs/01_REQUIREMENTS.md. Proposed 38-table design: docs/03_DATABASE_DESIGN.md. Original requirements and SQL remain preserved.
 
 ## Approval boundaries
-1. The owner accepted P1-02 and authorized P1-03a/b only. Stop at P1-03 completion for review; do not infer permission for all stages.
-2. The owner approved docs/22_P1_03_DATABASE_REVIEW.md's 0003–0005 package, review upgrade and isolated clean install/tests. New SQL/targets and production remain separately gated.
+1. The owner accepted P1-03 and authorized P1-04a/b/c only. Stop at P1-04 completion for review; do not infer permission for all stages.
+2. The owner approved docs/24_P1_04_DATABASE_REVIEW.md's 0006–0007 package, review upgrade and private conex360-p104-clean installation/tests. Earlier approvals remain historical records. New SQL/targets and production remain separately gated.
 3. Before each later posting slice approve its business rules, schema differences and focused tests. A planned future feature does not authorize implementation now.
 4. Production deployment and live data import remain separate gates after operational acceptance/recovery verification.
 

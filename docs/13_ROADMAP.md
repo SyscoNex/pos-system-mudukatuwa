@@ -1,10 +1,10 @@
 # Phase 1 roadmap
 
-Current progress: P1-02 accepted; P1-03 implemented under separate approved 0003–0005 execution and isolated tests. Review P1-03 handoff before P1-04 Products, Units, Prices and Suppliers. Later stages, including mandatory P1-08 customer display, remain unimplemented.
+Current progress: P1-03 accepted; P1-04 Products, Units, Prices and Suppliers implemented with separately approved isolated 0006–0007 execution. Review docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md before authorizing P1-05 Inventory and Incoming Stock. Later stages, including mandatory P1-08 customer display, remain unimplemented.
 
 This ten-stage order replaces the enterprise M0-M7 delivery commitment. Build a useful tested vertical slice each time; no dates promised without capacity/client decisions. Details: [implementation plan](14_PHASE1_IMPLEMENTATION_PLAN.md).
 
-P1-01 is accepted. P1-02 is authorized with separately approved auth-review database execution; evidence is in docs/19. Stop for owner review before P1-04. Customer Facing Display is mandatory in P1-08 (docs/20), not a P1-02 deliverable. Later stages remain future work.
+P1-01 through P1-03 are accepted. P1-04 evidence is in docs/23. Stop for owner review before P1-05. Customer Facing Display is mandatory in P1-08 (docs/20). Later stages remain future work.
 
 | Stage | Working result | Exit gate |
 |---|---|---|

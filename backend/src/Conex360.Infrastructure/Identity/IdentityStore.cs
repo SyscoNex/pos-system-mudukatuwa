@@ -68,12 +68,12 @@ public sealed class IdentityStore(Database database, Conex360.Application.Organi
     private static Task<int> Security(MySqlConnection c, MySqlTransaction? t, ulong? user, string code, DateTimeOffset now, string correlation, CancellationToken ct, string? op = null) =>
         Sql.Execute(c, t, "INSERT INTO security_events(user_id,event_code,operator_reference,correlation_id,occurred_at) VALUES(@user,@code,@op,@correlation,@now)", ct,
             ("user", user), ("code", code), ("op", op), ("correlation", correlation), ("now", now));
-    internal static Task<int> Audit(MySqlConnection c, MySqlTransaction t, Membership m, string action, string entity, ulong entityId, string reason, DateTimeOffset now, string correlation, CancellationToken ct, string? op = null) =>
+    internal static Task<int> Audit(MySqlConnection c, MySqlTransaction t, Membership m, string action, string entity, ulong entityId, string reason, DateTimeOffset now, string correlation, CancellationToken ct, string? op = null, string? detailsJson = null) =>
         Sql.Execute(c, t, """
-            INSERT INTO audit_events(tenant_id,company_id,actor_membership_id,operator_reference,action,entity_type,entity_id,reason,correlation_id,occurred_at)
-            VALUES(@tenant,@company,@actor,@op,@action,@entity,@id,@reason,@correlation,@now)
+            INSERT INTO audit_events(tenant_id,company_id,actor_membership_id,operator_reference,action,entity_type,entity_id,reason,correlation_id,occurred_at,details_json)
+            VALUES(@tenant,@company,@actor,@op,@action,@entity,@id,@reason,@correlation,@now,@details)
             """, ct, ("tenant", m.TenantId), ("company", m.CompanyId), ("actor", op is null ? m.Id : null), ("op", op),
-            ("action", action), ("entity", entity), ("id", entityId), ("reason", reason), ("correlation", correlation), ("now", now));
+            ("action", action), ("entity", entity), ("id", entityId), ("reason", reason), ("correlation", correlation), ("now", now), ("details", detailsJson));
     private static Task<int> InsertSession(MySqlConnection c, MySqlTransaction t, SessionRecord s, CancellationToken ct) =>
         Sql.Execute(c, t, """
             INSERT INTO auth_sessions(public_id,session_key_hash,user_id,user_security_stamp,selected_membership_id,context_version,created_at,last_activity_at,absolute_expires_at)
@@ -186,7 +186,7 @@ public sealed class IdentityStore(Database database, Conex360.Application.Organi
         {
             var locked = await Sql.Scalar(c, t, "SELECT currency_locked_at FROM companies WHERE tenant_id=@tenant AND id=@id", ct, ("tenant", m.TenantId), ("id", m.CompanyId));
             if (locked is not DBNull && locked is not null && (old.CurrencyCode != edit.CurrencyCode || old.CurrencyMinorUnits != minorUnits))
-                throw new AppFailure(409, "CURRENCY_LOCKED", "Currency cannot change after operational transactions begin.");
+                throw new AppFailure(409, "CURRENCY_LOCKED", "Currency cannot change after prices or operational amounts are configured.");
             await Sql.Execute(c, t, """
                 UPDATE companies SET business_name=@name,display_name=@display,phone=@phone,email=@email,address=@address,timezone=@timezone,
                 currency_code=@currency,currency_minor_units=@minor,updated_at=@now,row_version=row_version+1 WHERE tenant_id=@tenant AND id=@id AND row_version=@version

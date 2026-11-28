@@ -1,8 +1,12 @@
 # Decision log — Phase 1
 
+P31 (owner-authorized/implemented): P1-03 accepted; P1-04a/b/c plus docs/24's 0006–0007, catalogue grants, review upgrade and private p104-clean tests separately approved on 28 November 2026. Stop before P1-05. Six scoped tables; no new package, ORM or service. This supersedes earlier milestone gates below.
+
+P32 (approved catalogue safeguards): Base UOM is immutable from creation, stricter than the original after-use proposal; correct a wrong base identity with a replacement SKU. First configured price including zero locks company currency. Both refinements were disclosed in the approved database question/package. Exact explicit factors allow count packaging without density assumptions or a different-SKU manufacturing shortcut. Blank and zero prices differ. Staff DTOs follow transaction-revalidated membership. Exact before/after product/unit/price/barcode audit snapshots use the existing private audit table. Future document tables must add immutable transaction snapshots and used-SKU/tracking checks. Evidence/open decisions: docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md.
+
 P29 (owner-authorized/implemented): P1-02 accepted, P1-03a/b authorized; separate 0003–0005/review+clean target/grants approval received. Four tables plus scoped session fields; no classification hierarchy or stock. P30 (technical policies): one default per outlet; explicit deactivation cascades warehouses/grants with audit; reactivation revives default only. Canonical transit per company is hidden and immutable. Last-active Administrator protected by company serialization; existing-identity linking remains controlled with consent/password proof. Full evidence: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md. Stop before P1-04.
 
-**Updated 28 November 2026.** Confirmed = owner-approved direction; Proposed = awaits approval; Open = unresolved before dependent slice; Partial = implemented/decided in part; Superseded = historical gate. P1-01 is accepted; P1-02a/b/c and isolated conex360-auth-review execution/synthetic tests are authorized. Stop before P1-04.
+**Updated 28 November 2026.** Confirmed = owner-approved direction; Proposed = awaits approval; Open = unresolved before dependent slice; Partial = implemented/decided in part; Superseded = historical gate. P1-01 through P1-03 are accepted; P1-04 is implemented under the isolated approval above. Stop before P1-05.
 The complete D01-D20 enterprise decision log is preserved in [the archived baseline](reference/enterprise_baseline_2026-11-24/docs/12_DECISION_LOG.md).
 
 ## Supersession

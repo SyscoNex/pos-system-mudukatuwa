@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.RateLimiting;
+using Conex360.Application.Catalog;
 using Conex360.Application.Identity;
 using Conex360.Application.Organization;
 using Conex360.Domain.Identity;
@@ -24,7 +25,8 @@ public static class IdentitySetup
         var storage = configuration.GetSection("Storage").Get<StorageSettings>() ?? new();
         var business = configuration.GetSection("Business").Get<BusinessPolicy>() ?? new();
         var organization = configuration.GetSection("Organization").Get<OrganizationSettings>() ?? new();
-        db.MinimumSchemaVersion = organization.Enabled ? 5 : 2;
+        var catalog = configuration.GetSection("Catalog").Get<CatalogSettings>() ?? new();
+        db.MinimumSchemaVersion = catalog.Enabled ? 7 : organization.Enabled ? 5 : 2;
         var insecure = environment.IsDevelopment() && policy.AllowInsecureDevelopmentCookies;
         if (!environment.IsDevelopment() && db.AllowUnverifiedDevelopmentTls)
             throw new InvalidOperationException("Unverified database certificates are restricted to explicit local Development configuration.");
@@ -43,6 +45,8 @@ public static class IdentitySetup
         services.AddSingleton(storage);
         services.AddSingleton(business);
         services.AddSingleton(organization);
+        services.AddSingleton(catalog);
+        services.AddSingleton<ICatalogStore, CatalogStore>();
         services.AddSingleton<IOrganizationStore, OrganizationStore>();
         services.AddSingleton<Database>();
         services.AddSingleton<IDatabaseReadiness>(s => s.GetRequiredService<Database>());

@@ -1,5 +1,7 @@
 # Phase 1 acceptance and release gates
 
+P1-04 reuses the existing MySQL fixture with one combined catalogue/supplier scenario: scoped FKs/codes, categories/cycles, exact/discrete conversions, prices/defaults/stale child versions, exact barcode identity, soft deactivation, Staff DTOs and stale-role redaction, supplier/product audit rollback and runtime restrictions. One pure arithmetic unit test and one primary browser workflow with desktop/mobile smoke complement existing regressions. Approved review upgrade and private clean-install sequence are real MySQL evidence; results/failures: docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md. Future stock/sales snapshot acceptance below is not claimed yet.
+
 P1-03 uses one combined real-MySQL management scenario in the existing fixture for critical scope/default/transit/rollback/concurrency/Staff/revocation/linkage invariants, upgrade and isolated clean install, plus one essential browser workflow and responsive smoke. Existing regressions are retained and run at completion. Results: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md; no arbitrary coverage target or duplicate test framework.
 
 

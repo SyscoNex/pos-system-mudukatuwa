@@ -1,8 +1,13 @@
 # Phase 1 database starting design
 
+## P1-04 implemented refinement
+Separately approved migrations 0006–0007 introduce units, item_categories, items, item_units, item_barcodes and parties: 17 application tables in total, plus schema_migrations. All six use scoped company FKs, unique machine keys, row versions and immutable ownership/no-delete guards. Details: docs/24_P1_04_DATABASE_REVIEW.md; evidence: docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md. Existing SQL 0000–0005 is unchanged. No compulsory seed; standard UOM setup is an optional idempotent Administrator command.
+
+Base UOM is immutable from creation (stricter than the original after-use proposal). Product-specific factors use DECIMAL(24,9), nullable prices DECIMAL(24,6), with base factor one and unique active default slots. Exactly one active base/purchase/sale default where enabled and category acyclicity are guarded application transaction rules. Barcode exact NO PAD binary collation preserves leading zeros. First explicit price including zero locks company currency, rather than waiting for a stock/sales posting. Snapshot/used-SKU/tracking-change checks must be added alongside future document tables. These refinements supersede the corresponding proposals below; no historical transaction tables exist yet.
+
 P1-03 adds only branches, membership_branches, warehouses and locations through reviewed 0003–0005, plus nullable scoped outlet context fields on auth_sessions. Scope/kind composite FKs, generated default/transit unique keys and immutable/no-delete guards protect structure. Locations are three immutable ordinary system nodes (STORAGE/HOLD/DAMAGED) or one TRANSIT; operational activation derives from parent. Optional branch classification is omitted until a concrete rule requires it. Exact SQL/review: docs/22_P1_03_DATABASE_REVIEW.md. Historical SQL and applied 0000–0002 unchanged.
 
-**Starting design approved 25 November 2026. P1-02 introduces only seven application tables plus migration bookkeeping; exact 0000–0002 DDL and isolated execution are reviewed/approved separately. See docs/21 and docs/19. Later tables remain design only.**
+**Starting design approved 25 November 2026. P1-02 introduced seven application tables, P1-03 four and P1-04 six, plus separate migration bookkeeping. Reviewed SQL reaches 0007; remaining stock/document tables are design only. Exact current package: docs/24; earlier evidence docs/19 and docs/21.**
 
 Phase 1 is designed as an independently installable operational database, not a reduced set of screens on the enterprise database. Its approved starting baseline has 38 application tables: 33 adapted historical names and five new tables. This is not a fixed limit; justify/review additional tables against real requirements. Migration-tool bookkeeping, if selected, is separate. Add tables by functional slice; do not generate them all during foundation.
 

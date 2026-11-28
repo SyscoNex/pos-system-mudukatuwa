@@ -89,6 +89,10 @@ export function safeReturnPath(value: string | null): string {
     "/settings/outlets",
     "/settings/warehouses",
     "/settings/users",
+    "/settings/products",
+    "/settings/categories",
+    "/settings/units",
+    "/settings/suppliers",
     "/account/password",
     "/select-business",
   ].includes(value ?? "")

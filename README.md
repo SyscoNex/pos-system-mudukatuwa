@@ -1,18 +1,18 @@
 # Conex360 — Phase 1 development knowledge pack
 
-P1-03 is the current implemented milestone; P1-02 accepted. Outlets/warehouses, Staff membership/grants and working-outlet context extend the existing application. Migrations 0003–0005 and isolated tests were separately approved. See [P1-03 handoff](docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md). Stop before P1-04. SchoolGrid remains excluded; retain the Workbench override when running review commands.
+P1-04 adds company-scoped products, categories, units, conversions, barcodes, basic prices and suppliers to the accepted P1-03 application. Migrations 0006–0007 and isolated tests were separately approved. See [P1-04 handoff and usage](docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md). Stop before P1-05. SchoolGrid remains excluded; retain the Workbench override when running review commands.
 
-**SysConex | P1-03 / application v0.1.0 / knowledge pack v0.6 | 28 November 2026**
+**SysConex | P1-04 / application v0.1.0 / knowledge pack v0.7 | 28 November 2026**
 
 Conex360 has a comprehensive long-term product vision. The immediate delivery is a lightweight, reliable online POS and stock/manufacturing system for a coconut business operated initially by one or two people.
 
-The accepted foundation/authentication remains intact; historical evidence is in [P1-02](docs/19_AUTH_BUSINESS_IMPLEMENTATION.md) and [P1-01](docs/18_FOUNDATION_IMPLEMENTATION.md). Current [P1-03 implementation/runbook](docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md) covers outlet/warehouse/user management and [approved incremental SQL](docs/22_P1_03_DATABASE_REVIEW.md). No production access or automatic startup migrations.
+The accepted foundation/authentication/outlet management remains intact; earlier evidence is in [P1-03](docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md), [P1-02](docs/19_AUTH_BUSINESS_IMPLEMENTATION.md) and [P1-01](docs/18_FOUNDATION_IMPLEMENTATION.md). Current [SQL review](docs/24_P1_04_DATABASE_REVIEW.md) covers six new tables, giving 17 application tables plus the migration journal. No production access or automatic startup migrations.
 
 ## Start here
 1. Read AGENTS.md, docs/00_PROJECT_OVERVIEW.md and docs/12_DECISION_LOG.md.
 2. Review docs/14_PHASE1_IMPLEMENTATION_PLAN.md and docs/03_DATABASE_DESIGN.md.
 3. Review docs/15_PHASE1_SCHEMA_MAPPING.md and docs/16_ENVIRONMENT_READINESS.md.
-4. Review P1-02 evidence before authorizing P1-03. The 38 tables remain a starting design; only seven application tables are introduced now. Same-computer customer display is mandatory Phase 1, reserved for P1-08; see docs/20_CUSTOMER_DISPLAY.md.
+4. Review P1-04 evidence before authorizing P1-05. The 38 tables remain a starting design; 17 application tables are introduced so far. Same-computer customer display is mandatory Phase 1, reserved for P1-08; see docs/20_CUSTOMER_DISPLAY.md.
 
 ## Run locally
 Prerequisites: .NET SDK 10.0.404 and Node 26.13.1/npm 11.20.0. The Node selection is workspace-local on Windows; the system Node installation is unchanged.

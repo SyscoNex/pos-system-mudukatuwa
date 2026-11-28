@@ -36,6 +36,7 @@ import {
   OutletSelector,
   type OutletContext,
 } from "./organization-panel";
+import { CatalogPanel } from "./catalog-panel";
 type Mode =
   | "login"
   | "home"
@@ -44,7 +45,11 @@ type Mode =
   | "select"
   | "outlets"
   | "warehouses"
-  | "users";
+  | "users"
+  | "products"
+  | "categories"
+  | "units"
+  | "suppliers";
 function Brand() {
   return (
     <Link href="/" className="auth-brand" aria-label="Conex360 home">
@@ -412,6 +417,20 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
         <Brand />
         <span className="auth-eyebrow">WORKSPACE</span>
         <nav aria-label="Application">
+          {!session.user.mustChangePassword &&
+            session.selectedMembershipId &&
+            (["products", "categories", "units", "suppliers"] as const).map(
+              (page) => (
+                <Link
+                  key={page}
+                  href={`/settings/${page}`}
+                  aria-current={mode === page ? "page" : undefined}
+                >
+                  <LayoutGrid size={18} />
+                  {page.charAt(0).toUpperCase() + page.slice(1)}
+                </Link>
+              ),
+            )}
           {admin &&
             !session.user.mustChangePassword &&
             (["outlets", "warehouses", "users"] as const).map((page) => (
@@ -511,6 +530,17 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
           </details>
         </header>
         <main id="workspace-main" className="private-main">
+          {(mode === "products" ||
+            mode === "categories" ||
+            mode === "units" ||
+            mode === "suppliers") && (
+            <CatalogPanel
+              key={mode}
+              kind={mode}
+              session={session}
+              currencyCode={business?.currencyCode ?? ""}
+            />
+          )}
           {(mode === "outlets" ||
             mode === "warehouses" ||
             mode === "users") && (
@@ -809,7 +839,8 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
                       </Field>
                       <p className="auth-help">
                         Choose your operating currency carefully. It is locked
-                        once operational transactions begin.
+                        when a price is first configured or operational
+                        transactions begin.
                       </p>
                       <button className="auth-primary" disabled={busy}>
                         {busy ? "Saving…" : "Save changes"}
