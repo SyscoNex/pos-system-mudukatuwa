@@ -6,6 +6,7 @@ namespace Conex360.Infrastructure.Identity;
 public sealed class DatabaseSettings
 {
     public bool Enabled { get; set; }
+    public int MinimumSchemaVersion { get; set; } = 2;
     public bool AllowUnverifiedDevelopmentTls { get; set; }
     public string ConnectionFile { get; set; } = "";
     public string MigrationConnectionFile { get; set; } = "";
@@ -49,7 +50,7 @@ public sealed class Database(DatabaseSettings settings) : IDatabaseReadiness
         {
             await using var connection = await OpenAsync(ct);
             return Convert.ToInt32(await Sql.Scalar(connection, null,
-                "SELECT COUNT(*) FROM schema_migrations WHERE version = 2", ct)) == 1;
+                "SELECT COUNT(*) FROM schema_migrations WHERE version = @version", ct, ("version", settings.MinimumSchemaVersion.ToString(System.Globalization.CultureInfo.InvariantCulture)))) == 1;
         }
         catch (Exception e) when (e is MySqlException or AppFailure or IOException) { return false; }
     }

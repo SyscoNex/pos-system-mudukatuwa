@@ -1,0 +1,17 @@
+# P1-03 migration execution review — 28 November 2026
+
+Owner separately approved P1-03 isolated migration execution and tests on 28 November 2026. Migrations 0003–0005 were applied to the existing review database and clean 0000–0005 installation was verified in the separate conex360-p103-clean project. Original migrations and data were preserved. SchoolGrid remains excluded.
+
+Exact SQL: database/migrations/0003_organization.sql (four tables and nullable scoped outlet context on auth_sessions); 0004_organization_guards.sql (immutable scope/ownership/kinds and no-delete guards); 0005_transit_backfill.sql (canonical transit/storage/audit only, no actual client outlets).
+
+branches represents outlets/factories without separate entities or mandatory classification. membership_branches retains active/inactive grants. warehouses has nullable branch only for canonical TRANSIT; generated unique keys enforce one transit per company and at most one default warehouse per branch. locations has system-managed STORAGE/HOLD/DAMAGED or TRANSIT, with a warehouse-kind composite FK preventing mismatches. All ownership links use tenant/company scope, optimistic versions and UTC metadata. Session branch context uses nullable tenant/company/branch FK plus selected-membership/tenant FK; no client scope is trusted.
+
+Exactly one default is maintained by atomic application commands; uniqueness is a DB constraint. Branch deactivation is an explicit, reasoned cascade to ordinary warehouses and grant deactivation, retaining the selected default designation. Reactivation revives the designated default only; grants need explicit restoration. Ordinary default warehouse deactivation needs an active replacement. Inventory-era checks must later reject reservations, balances, transit, pending documents/count freezes before deactivation. No stock checks are claimed now.
+
+Future onboarding initializes hidden transit in the same provisioning transaction; an explicit idempotent initialization command locks the company for concurrent callers. Backfill seeds existing companies only and appends operator audit evidence. System transit is excluded from ordinary reads/commands and cannot be chosen as an outlet/selling warehouse. No stock movement is introduced.
+
+Runtime privilege proposal: SELECT/INSERT/UPDATE on branches, membership_branches, warehouses and locations only; no DELETE, DDL or migration-journal writes. Existing evidence and credential privileges remain. Workbench retains SELECT/SHOW VIEW. Explicit separate privilege script is run after approved SQL; runtime never migrates.
+
+Target for upgrade: existing isolated conex360-auth-review / conex360_auth_review on MySQL 8.4, preserving its volume, users, logs and optional localhost-only Workbench 3307. For clean-install verification: a new dedicated conex360-p103-clean Docker project/volume with private MySQL and no published port, same 0000–0005 sequence and synthetic fixtures only. No SchoolGrid project/container/data access or changes.
+
+Runner preserves existing applied hashes, asserts expected database/version, uses its migration identity and named lock, normalizes UTF-8/LF hashes and stops on partial auto-committed DDL. No reset, DROP, historical SQL, FK disabling or automatic startup migrations. Inspect partial failures before any repair. Approval is requested for these exact SQL files, scoped runtime grants, upgrade/backfill and disposable clean-install/synthetic integration tests.

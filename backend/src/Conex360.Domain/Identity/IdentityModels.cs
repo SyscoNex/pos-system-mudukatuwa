@@ -14,7 +14,10 @@ public sealed record Membership(ulong Id, ulong TenantId, ulong CompanyId, strin
 
 public sealed record SessionRecord(Guid PublicId, byte[] KeyHash, ulong UserId, Guid SecurityStamp,
     ulong? SelectedMembershipId, ulong ContextVersion, DateTimeOffset CreatedAt,
-    DateTimeOffset LastActivityAt, DateTimeOffset AbsoluteExpiresAt, DateTimeOffset? RevokedAt);
+    DateTimeOffset LastActivityAt, DateTimeOffset AbsoluteExpiresAt, DateTimeOffset? RevokedAt)
+{
+    public ulong? SelectedBranchId { get; init; }
+}
 
 public sealed record SessionData(UserAccount User, SessionRecord Session, IReadOnlyList<Membership> Memberships)
 {

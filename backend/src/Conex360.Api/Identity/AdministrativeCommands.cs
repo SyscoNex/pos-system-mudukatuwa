@@ -10,6 +10,7 @@ public static class AdministrativeCommands
 {
     private sealed record RecoveryInput(Guid UserPublicId, string Email, string OperatorReference, string Reason);
     private sealed record DisableInput(ulong TenantId, ulong MembershipId, string OperatorReference, string Reason);
+    private sealed record TransitInput(Guid TenantPublicId, string OperatorReference, string Reason);
     public static async Task<int> RunAsync(IServiceProvider services, IConfiguration config, string[] args)
     {
         string Value(string name) => args.SkipWhile(a => a != name).Skip(1).FirstOrDefault() ?? "";
@@ -31,6 +32,19 @@ public static class AdministrativeCommands
             var json = await File.ReadAllTextAsync(path);
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var identity = services.GetRequiredService<IdentityService>();
+            if (args.Contains("--admin-link-membership"))
+            {
+                var input = JsonSerializer.Deserialize<Conex360.Application.Organization.LinkExistingMembership>(json, options) ?? throw new JsonException();
+                var password = await ReadSecret(args.Contains("--password-stdin"));
+                await ((OrganizationStore)services.GetRequiredService<Conex360.Application.Organization.IOrganizationStore>()).LinkExistingAsync(input, password, CancellationToken.None);
+                Console.WriteLine("Verified identity linked; Staff outlet grants require explicit assignment."); return 0;
+            }
+            if (args.Contains("--admin-initialize-transit"))
+            {
+                var input = JsonSerializer.Deserialize<TransitInput>(json, options) ?? throw new JsonException();
+                await ((OrganizationStore)services.GetRequiredService<Conex360.Application.Organization.IOrganizationStore>()).InitializeTransitAsync(input.TenantPublicId, input.OperatorReference, input.Reason, CancellationToken.None);
+                Console.WriteLine("Canonical internal transit initialized or already present."); return 0;
+            }
             if (args.Contains("--admin-provision"))
             {
                 var input = JsonSerializer.Deserialize<ProvisionBusiness>(json, options) ?? throw new JsonException();

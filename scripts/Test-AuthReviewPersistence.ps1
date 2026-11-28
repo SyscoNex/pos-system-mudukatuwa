@@ -1,6 +1,6 @@
 $ErrorActionPreference='Stop'
 $repoRoot=Split-Path $PSScriptRoot -Parent
-$composeArgs=@('compose','-p','conex360-auth-review','-f','infrastructure/compose.auth-review.yaml','--profile','database-approved','--profile','runtime')
+$composeArgs=@('compose','-p','conex360-auth-review','-f','infrastructure/compose.auth-review.yaml','-f','infrastructure/compose.workbench.yaml','--profile','database-approved','--profile','runtime')
 function Assert-Http([string]$Path,[int]$Expected) {
     $response=Invoke-WebRequest "http://127.0.0.1:5182$Path" -SkipHttpErrorCheck -TimeoutSec 15
     if([int]$response.StatusCode -ne $Expected){throw "Unexpected $Path status: $($response.StatusCode), expected $Expected"}

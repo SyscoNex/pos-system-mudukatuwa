@@ -1,3 +1,169 @@
+.organization-toolbar {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+.organization-toolbar .auth-field {
+  margin: 0;
+  flex: 1;
+  min-width: 140px;
+}
+.organization-table-wrap {
+  position: relative;
+  max-width: 100%;
+  overflow: auto;
+}
+.organization-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  text-align: left;
+}
+.organization-table th {
+  color: #77839a;
+  font-size: 11px;
+  padding: 15px 12px;
+  border-bottom: 1px solid #e6ebf3;
+}
+.organization-table td {
+  padding: 18px 12px;
+  border-bottom: 1px solid #edf0f6;
+  line-height: 1.6;
+}
+.organization-table td small {
+  display: block;
+  color: #7b8599;
+  margin-top: 4px;
+  font-size: 11px;
+}
+.org-badge {
+  font-size: 11px;
+  background: #f0f2f6;
+  color: #667085;
+  border-radius: 20px;
+  padding: 5px 9px;
+}
+.org-badge.active {
+  color: #226c53;
+  background: #edf8f1;
+}
+.organization-empty {
+  color: #6c7890;
+  font-size: 13px;
+  padding: 35px 0;
+}
+.organization-dialog {
+  width: min(590px, 94vw);
+  max-height: 90dvh;
+  overflow: auto;
+  border: 1px solid #e0e6f1;
+  border-radius: 16px;
+  padding: 28px;
+  color: var(--ink);
+}
+.organization-dialog::backdrop {
+  background: #141c3766;
+}
+.organization-dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+.organization-dialog h2 {
+  font-size: 21px;
+}
+.organization-dialog-heading button {
+  min-height: 34px;
+  padding: 4px 12px;
+  font-size: 22px;
+}
+.org-check {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 18px 0;
+}
+.org-grants {
+  border: 1px solid #e3e9f2;
+  border-radius: 9px;
+  margin: 20px 0;
+  padding: 15px;
+  font-size: 12px;
+}
+.org-grants p {
+  color: #758097;
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.org-grants label {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+}
+.outlet-selector {
+  font-size: 10px;
+  color: #7c88a1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 260px;
+}
+.outlet-selector select {
+  border: 1px solid #dae1ed;
+  border-radius: 7px;
+  padding: 8px;
+  color: #3f4b65;
+  background: white;
+  max-width: 100%;
+  font-size: 12px;
+}
+.outlet-empty,
+.outlet-context-error {
+  max-width: 280px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #738099;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+@media (max-width: 700px) {
+  .private-header {
+    height: auto;
+    min-height: 80px;
+    flex-wrap: wrap;
+    padding: 15px 20px;
+  }
+  .outlet-selector {
+    order: 3;
+    max-width: none;
+    width: 100%;
+  }
+  .outlet-empty {
+    order: 3;
+    max-width: none;
+  }
+  .organization-dialog {
+    padding: 20px;
+  }
+  .organization-table {
+    min-width: 500px;
+  }
+  .private-sidebar nav {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
 .auth-brand {
   display: inline-flex;
   align-items: center;

@@ -1,5 +1,8 @@
 # Phase 1 product overview
-**Owner-approved Phase 1 scope/design: 25 November 2026; P1-01 accepted and P1-02 authorized 28 November. Only the disposable auth-review database execution is approved. Stop before P1-03.**
+
+P1-03 now implements ordinary outlets/warehouses/system locations, hidden canonical transit, Staff membership/grants and working-outlet context. Owner approved its code and isolated 0003–0005 execution; review gates P1-04. No products or stock. Actual evidence/runbook: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
+
+**Owner-approved Phase 1 scope/design: 25 November 2026; P1-01 accepted and P1-02 authorized 28 November. Only the reviewed auth-review and P1-03 clean-test database execution is approved. Stop before P1-04.**
 
 Conex360 is owned by SysConex. Its first release serves a coconut manufacturer with initially one or two operators. Provide useful daily workflows and accurate stock without delivering the full future enterprise platform.
 

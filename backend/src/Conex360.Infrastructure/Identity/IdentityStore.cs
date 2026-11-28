@@ -5,7 +5,7 @@ using MySqlConnector;
 
 namespace Conex360.Infrastructure.Identity;
 
-public sealed class IdentityStore(Database database) : IIdentityStore
+public sealed class IdentityStore(Database database, Conex360.Application.Organization.OrganizationSettings organization) : IIdentityStore
 {
     private static UserAccount ReadUser(MySqlDataReader r) => new(r.GetUInt64("id"), Sql.Guid(r, "public_id"),
         r.GetString("email_normalized"), r.GetString("display_name"), r.GetString("password_hash"), Sql.Guid(r, "security_stamp"),
@@ -13,7 +13,13 @@ public sealed class IdentityStore(Database database) : IIdentityStore
     private static SessionRecord ReadSession(MySqlDataReader r) => new(Sql.Guid(r, "public_id"), (byte[])r["session_key_hash"],
         r.GetUInt64("user_id"), Sql.Guid(r, "user_security_stamp"), r["selected_membership_id"] is DBNull ? null : r.GetUInt64("selected_membership_id"),
         r.GetUInt64("context_version"), Sql.Date(r, "created_at")!.Value, Sql.Date(r, "last_activity_at")!.Value,
-        Sql.Date(r, "absolute_expires_at")!.Value, Sql.Date(r, "revoked_at"));
+        Sql.Date(r, "absolute_expires_at")!.Value, Sql.Date(r, "revoked_at"))
+    { SelectedBranchId = OptionalBranch(r) };
+    private static ulong? OptionalBranch(MySqlDataReader r)
+    {
+        for (var i = 0; i < r.FieldCount; i++) if (r.GetName(i) == "selected_branch_id") return r.IsDBNull(i) ? null : r.GetUInt64(i);
+        return null; // Preserve operation against 0002 until migration execution is approved.
+    }
     private static BusinessProfile ReadBusiness(MySqlDataReader r) => new(r.GetUInt64("id"), r.GetUInt64("tenant_id"),
         r.GetString("business_name"), r.GetString("display_name"), Sql.Text(r, "phone"), Sql.Text(r, "email"), Sql.Text(r, "address"),
         r.GetString("timezone"), r.GetString("currency_code"), r.GetByte("currency_minor_units"), Sql.Text(r, "logo_key"), r.GetUInt64("row_version"));
@@ -49,7 +55,7 @@ public sealed class IdentityStore(Database database) : IIdentityStore
         var user = await Sql.One(c, t, "SELECT * FROM users WHERE id=@id", ReadUser, ct, ("id", session.UserId));
         return user is null ? null : new(user, session, await Memberships(c, t, user.Id, false, ct));
     }
-    private static async Task<SessionData> Guard(MySqlConnection c, MySqlTransaction t, SessionData observed, DateTimeOffset now, AuthPolicy policy, bool business, bool admin, CancellationToken ct)
+    internal static async Task<SessionData> Guard(MySqlConnection c, MySqlTransaction t, SessionData observed, DateTimeOffset now, AuthPolicy policy, bool business, bool admin, CancellationToken ct)
     {
         var user = await Sql.One(c, t, "SELECT * FROM users WHERE id=@id FOR UPDATE", ReadUser, ct, ("id", observed.User.Id)) ?? throw Unauthorized();
         var session = await Sql.One(c, t, "SELECT * FROM auth_sessions WHERE public_id=@id AND user_id=@user FOR UPDATE", ReadSession, ct, ("id", observed.Session.PublicId), ("user", user.Id)) ?? throw Unauthorized();
@@ -62,7 +68,7 @@ public sealed class IdentityStore(Database database) : IIdentityStore
     private static Task<int> Security(MySqlConnection c, MySqlTransaction? t, ulong? user, string code, DateTimeOffset now, string correlation, CancellationToken ct, string? op = null) =>
         Sql.Execute(c, t, "INSERT INTO security_events(user_id,event_code,operator_reference,correlation_id,occurred_at) VALUES(@user,@code,@op,@correlation,@now)", ct,
             ("user", user), ("code", code), ("op", op), ("correlation", correlation), ("now", now));
-    private static Task<int> Audit(MySqlConnection c, MySqlTransaction t, Membership m, string action, string entity, ulong entityId, string reason, DateTimeOffset now, string correlation, CancellationToken ct, string? op = null) =>
+    internal static Task<int> Audit(MySqlConnection c, MySqlTransaction t, Membership m, string action, string entity, ulong entityId, string reason, DateTimeOffset now, string correlation, CancellationToken ct, string? op = null) =>
         Sql.Execute(c, t, """
             INSERT INTO audit_events(tenant_id,company_id,actor_membership_id,operator_reference,action,entity_type,entity_id,reason,correlation_id,occurred_at)
             VALUES(@tenant,@company,@actor,@op,@action,@entity,@id,@reason,@correlation,@now)
@@ -134,7 +140,7 @@ public sealed class IdentityStore(Database database) : IIdentityStore
         await using var t = await c.BeginTransactionAsync(ct);
         var current = await Guard(c, t, session, now, policy, false, false, ct);
         if (!current.Memberships.Any(m => m.Id == membershipId)) throw Forbidden();
-        await Sql.Execute(c, t, "UPDATE auth_sessions SET selected_membership_id=@membership,context_version=context_version+1,last_activity_at=@now,row_version=row_version+1 WHERE public_id=@id", ct,
+        await Sql.Execute(c, t, "UPDATE auth_sessions SET " + (organization.Enabled ? "selected_branch_id=NULL,selected_branch_tenant_id=NULL,selected_branch_company_id=NULL," : "") + "selected_membership_id=@membership,context_version=context_version+1,last_activity_at=@now,row_version=row_version+1 WHERE public_id=@id", ct,
             ("membership", membershipId), ("now", now), ("id", current.Session.PublicId));
         await Security(c, t, current.User.Id, "CONTEXT_SELECTED", now, correlation, ct);
         await t.CommitAsync(ct);
@@ -242,6 +248,7 @@ public sealed class IdentityStore(Database database) : IIdentityStore
             var m = new Membership(member, tenant, company, input.DisplayName, MembershipRoles.Administrator);
             foreach (var (action, entity, id) in new[] { ("TENANT_PROVISIONED", "TENANT", tenant), ("DEFAULT_COMPANY_CREATED", "COMPANY", company), ("ADMINISTRATOR_ASSIGNED", "MEMBERSHIP", member) })
                 await Audit(c, t, m, action, entity, id, input.Reason, now, input.OperationId.ToString(), ct, input.OperatorReference);
+            if (organization.Enabled) await OrganizationStore.EnsureTransit(c, t, tenant, company, now, input.OperationId.ToString(), input.OperatorReference, ct);
             await Security(c, t, user.Id, "BUSINESS_PROVISIONED", now, input.OperationId.ToString(), ct, input.OperatorReference);
             await t.CommitAsync(ct);
             return new(tenantPublic, user.PublicId, member, false);

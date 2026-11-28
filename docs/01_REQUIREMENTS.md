@@ -1,4 +1,7 @@
 # Phase 1 requirements
+
+P1-03 delivers the location/user portion: Administrator management, Staff active-outlet grants, one default warehouse with safe replacement, atomic default locations, hidden canonical transit, scoped session outlet context and last-active-Administrator protection. No inventory/transfer posting. Current acceptance evidence: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md; later rows remain future outcomes.
+
 The owner approved Phase 1 scope/design, accepted P1-01 and authorized P1-02. Earlier FIN/OFF/advanced requirements remain future scope. Rows describe Phase 1 outcomes; actual implementation evidence is in docs/18 and docs/19. Remaining operational choices appear in the plan/decision log.
 
 | ID | Capability | Acceptance outcome |

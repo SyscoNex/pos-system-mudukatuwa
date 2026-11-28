@@ -99,7 +99,7 @@ public sealed class MySqlFixture : IAsyncLifetime
     }
 }
 
-public sealed class MySqlIdentityTests(MySqlFixture f) : IClassFixture<MySqlFixture>
+public sealed partial class MySqlIdentityTests(MySqlFixture f) : IClassFixture<MySqlFixture>
 {
     [MySqlFact]
     public async Task RuntimeCannotAlterJournalOrEvidenceAndSuspensionPreservesOtherMemberships()

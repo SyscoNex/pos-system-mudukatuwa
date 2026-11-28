@@ -86,6 +86,9 @@ export function safeReturnPath(value: string | null): string {
   return [
     "/app",
     "/settings/business",
+    "/settings/outlets",
+    "/settings/warehouses",
+    "/settings/users",
     "/account/password",
     "/select-business",
   ].includes(value ?? "")

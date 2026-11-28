@@ -1,16 +1,19 @@
 # Revised Phase 1 implementation plan
 
+Current authorization supersedes the earlier P1-02 stop: P1-03a/b and separate SQL 0003–0005/isolated upgrade+clean tests approved. Scope and evidence: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md. Stop for owner review before P1-04. No inventory/transfer/manufacture/POS/display operations are authorized by P1-03.
+
+
 ## P1-08d customer display
 Alongside billing implement Open Customer Display and read-only fullscreen route, random per-checkout BroadcastChannel, allowlisted DTO, provisional versus committed totals/payment, transaction/revision ordering, resync/heartbeat and clear/reset. Test two windows, multiple cashier instances, stale/reconnect and logout/context isolation. No real-time server or pairing table initially. [Full specification](20_CUSTOMER_DISPLAY.md).
 
-**Phase 1 approved; P1-01 accepted. P1-02a/b/c authorized 28 November 2026, with separate approval for 0000–0002 in conex360-auth-review and synthetic tests. Stop before P1-03. Actual progress: docs/19_AUTH_BUSINESS_IMPLEMENTATION.md.**
+**P1-02 accepted. P1-03a/b and isolated 0003–0005 execution approved 28 November 2026. Stop before P1-04. Actual progress: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.**
 
 ## Goal and delivery boundary
 Deliver a useful online operational system for a coconut manufacturer with one or two operators. Accuracy/isolation/transactional history remain essential; full accounting, advanced manufacturing/QC and offline/integration platforms are future scope. Requirements: docs/01_REQUIREMENTS.md. Proposed 38-table design: docs/03_DATABASE_DESIGN.md. Original requirements and SQL remain preserved.
 
 ## Approval boundaries
-1. The owner accepted P1-01 and authorized P1-02a/b/c only. Stop at P1-02 completion for review; do not infer permission for all stages.
-2. The owner approved docs/21's concrete DDL/constraints/safeguards and isolated conex360-auth-review execution/synthetic tests. All other database execution/production remains separately gated.
+1. The owner accepted P1-02 and authorized P1-03a/b only. Stop at P1-03 completion for review; do not infer permission for all stages.
+2. The owner approved docs/22_P1_03_DATABASE_REVIEW.md's 0003–0005 package, review upgrade and isolated clean install/tests. New SQL/targets and production remain separately gated.
 3. Before each later posting slice approve its business rules, schema differences and focused tests. A planned future feature does not authorize implementation now.
 4. Production deployment and live data import remain separate gates after operational acceptance/recovery verification.
 

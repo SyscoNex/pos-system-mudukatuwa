@@ -9,7 +9,7 @@ $inputData=@{operationId=[Guid]::NewGuid();tenantCode="browser-$suffix";business
 [IO.File]::WriteAllText((Join-Path $evidence 'forced-provisioning.json'),($inputData|ConvertTo-Json))
 Push-Location $repoRoot
 try {
-    $password | docker compose -p conex360-auth-review -f infrastructure/compose.auth-review.yaml --profile database-approved run -T --rm --pull never tools backend/src/Conex360.Api/bin/Release/net10.0/Conex360.Api.dll --admin-provision --input /evidence/forced-provisioning.json --password-stdin
+    $password | docker compose -p conex360-auth-review -f infrastructure/compose.auth-review.yaml -f infrastructure/compose.workbench.yaml --profile database-approved run -T --rm --pull never tools backend/src/Conex360.Api/bin/Release/net10.0/Conex360.Api.dll --admin-provision --input /evidence/forced-provisioning.json --password-stdin
     if($LASTEXITCODE -ne 0){throw 'Synthetic controlled provisioning failed.'}
     [IO.File]::WriteAllText((Join-Path $evidence 'browser-forced-fixture.json'),(@{email=$inputData.administratorEmail;password=$password}|ConvertTo-Json))
 } finally {Pop-Location; $password=$null}

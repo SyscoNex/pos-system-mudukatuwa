@@ -1,5 +1,8 @@
 # Phase 1 acceptance and release gates
 
+P1-03 uses one combined real-MySQL management scenario in the existing fixture for critical scope/default/transit/rollback/concurrency/Staff/revocation/linkage invariants, upgrade and isolated clean install, plus one essential browser workflow and responsive smoke. Existing regressions are retained and run at completion. Results: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md; no arbitrary coverage target or duplicate test framework.
+
+
 ## Added slice acceptance
 P1-02 evidence: [docs/19](19_AUTH_BUSINESS_IMPLEMENTATION.md). Required auth success/failure/disable/revoke/expiry/forced-change, CSRF/rate/lockout, roles, atomic provisioning/rollback/replay, shared-user/cross-tenant isolation, optimistic concurrency, safe private logos/cache, readiness and runtime persistence. Real MySQL requires isolated approval; skipped tests never count as evidence.
 P1-08 requires two windows/multiple cashier instances, rapid updates/discounts, payment success/failure/uncertain outcomes, stale/duplicate/wrong-transaction messages, heartbeat/resync/reopen, cancellation/next sale and logout/tenant/outlet isolation. Verify DTO sanitization, no early success or privileged commands: [docs/20](20_CUSTOMER_DISPLAY.md).

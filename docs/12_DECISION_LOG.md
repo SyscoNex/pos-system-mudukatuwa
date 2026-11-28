@@ -1,5 +1,8 @@
 # Decision log — Phase 1
-**Updated 28 November 2026.** Confirmed = owner-approved direction; Proposed = awaits approval; Open = unresolved before dependent slice; Partial = implemented/decided in part; Superseded = historical gate. P1-01 is accepted; P1-02a/b/c and isolated conex360-auth-review execution/synthetic tests are authorized. Stop before P1-03.
+
+P29 (owner-authorized/implemented): P1-02 accepted, P1-03a/b authorized; separate 0003–0005/review+clean target/grants approval received. Four tables plus scoped session fields; no classification hierarchy or stock. P30 (technical policies): one default per outlet; explicit deactivation cascades warehouses/grants with audit; reactivation revives default only. Canonical transit per company is hidden and immutable. Last-active Administrator protected by company serialization; existing-identity linking remains controlled with consent/password proof. Full evidence: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md. Stop before P1-04.
+
+**Updated 28 November 2026.** Confirmed = owner-approved direction; Proposed = awaits approval; Open = unresolved before dependent slice; Partial = implemented/decided in part; Superseded = historical gate. P1-01 is accepted; P1-02a/b/c and isolated conex360-auth-review execution/synthetic tests are authorized. Stop before P1-04.
 The complete D01-D20 enterprise decision log is preserved in [the archived baseline](reference/enterprise_baseline_2026-11-24/docs/12_DECISION_LOG.md).
 
 ## Supersession

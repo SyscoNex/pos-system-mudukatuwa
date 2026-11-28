@@ -1,4 +1,7 @@
 # Phase 1 database starting design
+
+P1-03 adds only branches, membership_branches, warehouses and locations through reviewed 0003–0005, plus nullable scoped outlet context fields on auth_sessions. Scope/kind composite FKs, generated default/transit unique keys and immutable/no-delete guards protect structure. Locations are three immutable ordinary system nodes (STORAGE/HOLD/DAMAGED) or one TRANSIT; operational activation derives from parent. Optional branch classification is omitted until a concrete rule requires it. Exact SQL/review: docs/22_P1_03_DATABASE_REVIEW.md. Historical SQL and applied 0000–0002 unchanged.
+
 **Starting design approved 25 November 2026. P1-02 introduces only seven application tables plus migration bookkeeping; exact 0000–0002 DDL and isolated execution are reviewed/approved separately. See docs/21 and docs/19. Later tables remain design only.**
 
 Phase 1 is designed as an independently installable operational database, not a reduced set of screens on the enterprise database. Its approved starting baseline has 38 application tables: 33 adapted historical names and five new tables. This is not a fixed limit; justify/review additional tables against real requirements. Migration-tool bookkeeping, if selected, is separate. Add tables by functional slice; do not generate them all during foundation.
