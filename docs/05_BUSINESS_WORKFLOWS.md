@@ -1,5 +1,7 @@
 # Phase 1 operational workflows
 
+P1-07 provides one completed run with actual materials and one intermediate or finished output. Use the same warehouse for consumption and output. A subsequent packaging run consumes the actual intermediate lot. Preview before confirming and use posted history to trace tracked lots. [Manufacturing handoff](29_MANUFACTURING_IMPLEMENTATION.md)
+
 P1-06 adds destination transfer requests, source confirmation/reservation and dispatch, destination settlement, Administrator discrepancy resolution, adjustment, waste and stock take finalization. Stock takes block warehouse stock changes until completion or cancellation. [Current handoff](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
 
 P1-05 prepares Administrator opening stock and granted-outlet goods receiving. Choose an ordinary warehouse, enter actual quantity and cost by unit, and select disposition and lot dates. Review the server preview, then confirm with the same operation ID. Committed details support browser printing. See [posting policies](26_P1_05_DATABASE_REVIEW.md).

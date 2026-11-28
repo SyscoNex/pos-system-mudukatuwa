@@ -1,5 +1,7 @@
 # Phase 1 inventory, transfers and operational costs
 
+P1-07 consumes eligible unreserved stock from the authorized ordinary warehouse and carries each exact issue value into one good output. The output total is authoritative and average cost is a display derivative. [Manufacturing handoff](29_MANUFACTURING_IMPLEMENTATION.md)
+
 P1-06 code applies the approved P1-05 arithmetic to issues and paired movements. Full depletion takes the exact remaining value. For transfers, each settlement consumes the dispatch allocation's remaining quantity and value. [Implementation and approval status](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
 
 SysConex approved the P1-05 receiving and opening policy. Entered quantity × entered-unit cost is the canonical carried value. The rounded base-unit cost is a reference figure. [Approved posting policies](26_P1_05_DATABASE_REVIEW.md)

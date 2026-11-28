@@ -74,7 +74,7 @@ public sealed class IdentityRulesTests
     public void MigrationPackageContainsOnlyReviewedIncrementAndWholeTriggers()
     {
         var m = Migrations.Read();
-        Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }, m.Select(x => x.Version));
+        Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, m.Select(x => x.Version));
         Assert.Equal(7, m[1].Statements.Length);
         Assert.Contains(m[2].Statements, s => s.Contains("BEGIN", StringComparison.Ordinal) && s.Contains("END;", StringComparison.Ordinal));
     }

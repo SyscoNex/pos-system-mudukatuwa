@@ -1,5 +1,7 @@
 # Conex360 — continue from the foundation
 
+P1-06 is accepted. P1-07 is complete with approved isolated 0012 execution and browser verification. Stop before P1-08 for owner review. [Handoff](docs/29_MANUFACTURING_IMPLEMENTATION.md) · [Migration review](docs/30_P1_07_DATABASE_REVIEW.md)
+
 P1-05 is accepted. P1-06 schema 0011 and focused tests are verified under the isolated execution approval. Stop before P1-07 for owner review. [Handoff](docs/27_STOCK_OPERATIONS_IMPLEMENTATION.md) · [Database review](docs/28_P1_06_DATABASE_REVIEW.md)
 
 P1-05 is complete and the approved review environment has posting enabled. Earlier milestone gates below are historical. Stop for owner review before P1-06. [Implementation and evidence](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md)

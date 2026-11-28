@@ -1,5 +1,7 @@
 # Revised Phase 1 implementation plan
 
+P1-06 is accepted. P1-07a–b is complete after separately approved 0012 execution and isolated verification. Stop at P1-07 for owner review. [Implementation status](29_MANUFACTURING_IMPLEMENTATION.md)
+
 P1-05 is accepted. P1-06a–e code and isolated schema upgrade, installation and synthetic tests are approved. Stop at P1-06 for review. [Implementation status](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
 
 P1-05a/b/c is complete under the approved posting policies and isolated SQL execution. Stop at P1-05 for owner review. [Implementation and verification](25_INVENTORY_INCOMING_IMPLEMENTATION.md)

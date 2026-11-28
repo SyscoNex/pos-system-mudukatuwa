@@ -1,5 +1,7 @@
 # Conex360 — Phase 1 development knowledge pack
 
+P1-06 is accepted. P1-07 manufacturing is complete and enabled on the review stack. P1-08 follows owner review. [Manufacturing handoff](docs/29_MANUFACTURING_IMPLEMENTATION.md)
+
 P1-05 is accepted. P1-06 transfers, adjustments, waste and stock takes are implemented and verified on MySQL under the isolated migration approval. [Current handoff](docs/27_STOCK_OPERATIONS_IMPLEMENTATION.md)
 
 P1-05 Inventory and Incoming Stock is implemented, verified and enabled on the Conex360 review environment. P1-06 follows owner review. [Implementation report and local usage](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md)
