@@ -1,4 +1,6 @@
 # Phase 1 database boundary
+
+P1-03 upgrade/clean installation and runtime grants for 0003–0005 were separately approved and executed; see docs/22_P1_03_DATABASE_REVIEW.md and docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md. Four organization tables and scoped session outlet fields extend the seven P1-02 tables. No stock/product structures or historical SQL were executed; 0000–0002 are unchanged.
 The Phase 1 starting design and historical mapping are in docs/03 and docs/15. P1-02 supplies only migrations/0000–0002: seven identity/business/security tables and a checksum journal. The owner separately approved execution in conex360-auth-review, database conex360_auth_review, and synthetic tests; this does not approve any production/other target. Exact review and runbook: docs/21 and docs/19. Original foundation database-disabled mode remains.
 
 ## Independent operational database

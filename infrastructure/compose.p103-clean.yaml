@@ -1,0 +1,4 @@
+# Reuse existing pinned/locked tool output for the isolated clean-install check.
+services:
+  tools:
+    image: conex360-auth-review-tools

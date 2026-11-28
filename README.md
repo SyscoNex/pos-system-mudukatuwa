@@ -1,9 +1,12 @@
 # Conex360 — Phase 1 development knowledge pack
-**SysConex | P1-02 / application v0.1.0 / knowledge pack v0.5 | 28 November 2026**
+
+P1-03 is the current implemented milestone; P1-02 accepted. Outlets/warehouses, Staff membership/grants and working-outlet context extend the existing application. Migrations 0003–0005 and isolated tests were separately approved. See [P1-03 handoff](docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md). Stop before P1-04. SchoolGrid remains excluded; retain the Workbench override when running review commands.
+
+**SysConex | P1-03 / application v0.1.0 / knowledge pack v0.6 | 28 November 2026**
 
 Conex360 has a comprehensive long-term product vision. The immediate delivery is a lightweight, reliable online POS and stock/manufacturing system for a coconut business operated initially by one or two people.
 
-The owner accepted P1-01 and authorized P1-02 Authentication, Tenant Isolation and Business Setup. The existing foundation is preserved and extended with cookie sessions, controlled onboarding, private business settings/logos and protected frontend routes. Database execution was separately approved for the disposable conex360-auth-review target and synthetic tests only. See [P1-02 implementation/runbook](docs/19_AUTH_BUSINESS_IMPLEMENTATION.md), [concrete database review](docs/21_P1_02_DATABASE_REVIEW.md), and [P1-01 evidence](docs/18_FOUNDATION_IMPLEMENTATION.md). Stop for owner review before P1-03; no production access or automatic startup migrations.
+The accepted foundation/authentication remains intact; historical evidence is in [P1-02](docs/19_AUTH_BUSINESS_IMPLEMENTATION.md) and [P1-01](docs/18_FOUNDATION_IMPLEMENTATION.md). Current [P1-03 implementation/runbook](docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md) covers outlet/warehouse/user management and [approved incremental SQL](docs/22_P1_03_DATABASE_REVIEW.md). No production access or automatic startup migrations.
 
 ## Start here
 1. Read AGENTS.md, docs/00_PROJECT_OVERVIEW.md and docs/12_DECISION_LOG.md.

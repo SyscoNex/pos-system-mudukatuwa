@@ -8,7 +8,7 @@ public static class HealthEndpoints
         app.MapGet("/api/v1/health", GetHealth)
             .WithName("GetApiHealth")
             .WithTags("Health")
-            .WithSummary("Checks the foundation API process. No database is configured.")
+            .WithSummary("Checks API process liveness independently of database readiness.")
             .Produces<HealthResponse>().AllowAnonymous();
         app.MapGet("/health/live", GetHealth).ExcludeFromDescription().AllowAnonymous();
         app.MapGet("/health/ready", async (IDatabaseReadiness database, TimeProvider clock, CancellationToken ct) =>

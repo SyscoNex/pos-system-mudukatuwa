@@ -31,7 +31,20 @@ import {
   type Session,
 } from "@/lib/api/identity";
 
-type Mode = "login" | "home" | "business" | "password" | "select";
+import {
+  OrganizationPanel,
+  OutletSelector,
+  type OutletContext,
+} from "./organization-panel";
+type Mode =
+  | "login"
+  | "home"
+  | "business"
+  | "password"
+  | "select"
+  | "outlets"
+  | "warehouses"
+  | "users";
 function Brand() {
   return (
     <Link href="/" className="auth-brand" aria-label="Conex360 home">
@@ -74,7 +87,7 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
         setLoading(true);
       }
       try {
-        const s = await api<Session>("/auth/session");
+        let s = await api<Session>("/auth/session");
         if (!live || current !== generation.current) return;
         if (mode === "login") {
           router.replace(
@@ -98,6 +111,32 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
           router.replace("/select-business");
           return;
         }
+        if (s.selectedMembershipId && !s.user.mustChangePassword) {
+          try {
+            const outlets = await api<OutletContext>(
+              "/organization/context",
+              {},
+              s.contextVersion,
+            );
+            if (!live || current !== generation.current) return;
+            if (outlets.outlets.length === 1 && !outlets.selectedBranchId) {
+              await api<OutletContext>(
+                "/organization/context",
+                {
+                  method: "POST",
+                  body: JSON.stringify({ branchId: outlets.outlets[0]!.id }),
+                },
+                s.contextVersion,
+              );
+              s = await api<Session>("/auth/session");
+            }
+          } catch (e) {
+            if (!(
+              e instanceof ApiError && e.code === "ORGANIZATION_UNAVAILABLE"
+            ))
+              throw e;
+          }
+        }
         const b =
           s.selectedMembershipId && !s.user.mustChangePassword
             ? await api<Business>("/business/", {}, s.contextVersion)
@@ -116,6 +155,12 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
         }
       } catch (e) {
         if (!live || current !== generation.current) return;
+        if (e instanceof ApiError && e.code === "CONTEXT_CHANGED") {
+          setSession(null);
+          setBusiness(null);
+          window.location.reload();
+          return;
+        }
         if (e instanceof ApiError && e.status === 401) {
           setSession(null);
           setBusiness(null);
@@ -367,6 +412,22 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
         <Brand />
         <span className="auth-eyebrow">WORKSPACE</span>
         <nav aria-label="Application">
+          {admin &&
+            !session.user.mustChangePassword &&
+            (["outlets", "warehouses", "users"] as const).map((page) => (
+              <Link
+                key={page}
+                href={`/settings/${page}`}
+                aria-current={mode === page ? "page" : undefined}
+              >
+                <Building2 size={18} />
+                {page === "outlets"
+                  ? "Outlets"
+                  : page === "warehouses"
+                    ? "Warehouses"
+                    : "Users & access"}
+              </Link>
+            ))}
           <Link href="/app" aria-current={mode === "home" ? "page" : undefined}>
             <LayoutGrid size={18} />
             Overview
@@ -428,6 +489,9 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
               </span>
             </div>
           </div>
+          {session.selectedMembershipId && !session.user.mustChangePassword && (
+            <OutletSelector session={session} />
+          )}
           <details className="account-menu">
             <summary aria-label="Account menu">
               <CircleUserRound size={22} />
@@ -447,6 +511,11 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
           </details>
         </header>
         <main id="workspace-main" className="private-main">
+          {(mode === "outlets" ||
+            mode === "warehouses" ||
+            mode === "users") && (
+            <OrganizationPanel kind={mode} session={session} />
+          )}
           {feedback}
           {mode === "home" && (
             <>

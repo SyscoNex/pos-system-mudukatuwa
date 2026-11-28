@@ -1,5 +1,8 @@
 # Phase 1 frontend and UX
 
+P1-03 adds /settings/outlets, /settings/warehouses and /settings/users with searchable/filterable lists, dialogs, confirmation, validation and one-time credential handoff. Protected header distinguishes business, working outlet and all-outlets management; no outlets shows an informative empty state. No stock counts/values or operational placeholders. Existing branding/private caches remain; see docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
+
+
 ## Mandatory P1-08 dual-screen checkout
 Cashier /pos supports Open Customer Display; /pos/customer-display is fullscreen-capable read-only content on a second extended monitor. Branding/welcome, cart lines/discounts/totals, paid/change and authoritative completion/thank-you/reset, with visible provisional/stale/disconnected/reconnect states. No operational code in P1-02. [Complete UX/protocol](20_CUSTOMER_DISPLAY.md).
 

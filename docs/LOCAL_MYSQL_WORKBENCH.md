@@ -1,5 +1,7 @@
 # Local MySQL Workbench access
 
+SchoolGrid uses the separate Docker project `database`, including `database-percona-server-1` on host port 3306. Do not start, stop, recreate or reconfigure that project for Conex360 work. Conex360 inspection uses only `conex360-auth-review` and localhost port 3307.
+
 Owner requested Workbench access on 28 November 2026. This optional override publishes only the existing review MySQL service at 127.0.0.1:3307. The default Compose file still has no published MySQL port. No application schema/migration, production target or stock/cost behavior changes.
 
 From the repository root in PowerShell, with the initialized review MySQL container running:
@@ -43,6 +45,14 @@ Include both Compose files whenever recreating review MySQL to retain the mappin
 ```powershell
 docker compose -p conex360-auth-review -f infrastructure/compose.auth-review.yaml -f infrastructure/compose.workbench.yaml --profile database-approved up -d --no-deps --wait mysql
 ```
+
+Also include both files when running provisioning/tools commands, because Compose may reconcile their MySQL dependency using the base configuration and remove the optional mapping. Example:
+
+```powershell
+docker compose -p conex360-auth-review -f infrastructure/compose.auth-review.yaml -f infrastructure/compose.workbench.yaml --profile database-approved run --rm tools backend/src/Conex360.Api/bin/Release/net10.0/Conex360.Api.dll --admin-provision --input /evidence/new-business.json
+```
+
+If the port disappears after using a base-only command, rerun `scripts/Enable-WorkbenchAccess.ps1`; it preserves the existing review database and password. On 28 November 2026 this mapping was restored and Workbench's TCP client verified required TLS, all eight tables and SELECT/SHOW VIEW grants; API readiness recovered to 200. SchoolGrid remained stopped with its original container and port binding.
 
 To remove the host port while preserving the database/inspection account, recreate just MySQL with the base file:
 

@@ -1,5 +1,8 @@
 # Phase 1 architecture
 
+P1-03 retains four projects/dependencies and existing auth authority. Focused Organization contracts/SQL adapter and API endpoints extend the existing session context revision, without separate permissions or authentication infrastructure. Company row locking serializes management/default/last-Administrator invariants. Existing private Next.js workspace adds three settings routes and an outlet selector. See docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
+
+
 ## P1-08 display topology
 Same-computer dual-monitor cashier/customer routes use a scoped BroadcastChannel and sanitized display DTO; .NET confirms prices/totals/payments, display executes no business commands. No real-time server or synchronization table. [Protocol and isolation specification](20_CUSTOMER_DISPLAY.md).
 

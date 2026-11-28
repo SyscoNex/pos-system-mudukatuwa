@@ -2,6 +2,7 @@
 These instructions apply to the repository. Owner: SysConex. Current scope was revised by the product owner on 25 November 2026. Deliver a reliable operational system for a coconut manufacturer with one or two operators; retain a maintainable product foundation.
 
 ## Authority and current task gate
+- P1-02 accepted; P1-03a/b implementation authorized on 28 November 2026. Owner separately approved 0003–0005, scoped runtime grants, upgrade of conex360-auth-review and private conex360-p103-clean tests; see docs/22_P1_03_DATABASE_REVIEW.md. Other SQL/targets remain gated. Preserve existing Workbench documentation. Stop before P1-04. SchoolGrid's Docker project `database` is excluded from all changes. Current handoff: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
 - Read README.md, docs/00_PROJECT_OVERVIEW.md, docs/12_DECISION_LOG.md and the relevant module specification before work.
 - The owner's Phase 1 scope supersedes the earlier enterprise baseline. Historical references, including archived AGENTS_BASELINE.md, are not current instructions.
 - On 28 November 2026 the owner accepted P1-01 and authorized P1-02a/b/c code, dependencies, incremental migration preparation and isolated local tooling. Database initialization/migration execution still requires separate review/approval of the concrete DDL and disposable target. Continue independent work while awaiting it; no production data or unrelated Docker changes. Stop after P1-02 for review before P1-03.

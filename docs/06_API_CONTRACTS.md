@@ -1,5 +1,8 @@
 # Proposed Phase 1 API contracts
 
+P1-03 actual /api/v1/organization routes and access matrix: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md. Outlets/warehouses/users GET/POST and versioned PUT, authorized warehouse locations, GET/POST working context. Existing cookie/CSRF/origin/active-membership/company/context-revision checks apply. One-time Staff credentials never enter logs/browser persistence; no public existing-identity linkage.
+
+
 ## Implemented P1-02 / future display contracts
 Actual authentication/business endpoints, CSRF headers, string IDs, context/row versions and errors: [implementation report](19_AUTH_BUSINESS_IMPLEMENTATION.md). Later endpoint proposals below remain unimplemented. No public registration or client-tenant-ID authorization.
 P1-08 distinguishes provisional cart from server-confirmed totals and committed payment. Customer display receives a separate sanitized allowlisted DTO over BroadcastChannel, never backend entities or privileged commands. See [display protocol](20_CUSTOMER_DISPLAY.md).

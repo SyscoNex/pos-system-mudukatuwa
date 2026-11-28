@@ -1,5 +1,8 @@
 # Phase 1 security and tenant isolation
 
+P1-03 implements ordinary membership/grant management and last-active-enabled-Administrator protection under company serialization. Grant/role/outlet status changes advance affected selected-session revisions and clear outlet context; SQL rechecks scope/role on each command. Staff without grants cannot access operational outlets/warehouses/locations; canonical transit is never granted by NULL branch. Global password resets/disabling remain SysConex controlled; new existing-identity linkage requires consent and current-password proof, not email alone. See docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
+
+
 ## Current implementation and display boundary
 P1-02 implements .NET cookie/CSRF/Data Protection, active identity/session/membership/company checks, private logos, context revisions and controlled global recovery; [security decisions/runbook](19_AUTH_BUSINESS_IMPLEMENTATION.md). Configurable session/password defaults require production review; Administrator MFA launch policy remains open. No tenant Administrator global identity takeover. Outlet grants belong to P1-03.
 P1-08 display uses a random per-checkout channel capability, transaction/revision ordering, bounded resync/heartbeat and fail-clear logout/session/context handling. DTO excludes credentials/tokens, costs/margins/balances, customer PII and staff data. No privileged display commands or early payment success. Same-origin/profile limits and future network pairing: [specification](20_CUSTOMER_DISPLAY.md).
