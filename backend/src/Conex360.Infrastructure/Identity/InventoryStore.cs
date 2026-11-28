@@ -10,7 +10,7 @@ using MySqlConnector;
 
 namespace Conex360.Infrastructure.Identity;
 
-public sealed partial class InventoryStore(Database database, AuthPolicy auth, InventorySettings settings, TimeProvider clock) : IInventoryStore
+public sealed partial class InventoryStore(Database database, AuthPolicy auth, InventorySettings settings, TimeProvider clock) : IInventoryStore, IStockOperations
 {
     private static AppFailure Invalid(string message) => new(400, "INVALID_INVENTORY", message);
     private static AppFailure Missing() => new(404, "NOT_FOUND", "The stock record or warehouse is unavailable.");
@@ -31,6 +31,7 @@ public sealed partial class InventoryStore(Database database, AuthPolicy auth, I
               AND (@warehouse IS NULL OR w.id=@warehouse) AND (@branch IS NULL OR w.branch_id=@branch) LIMIT 1
             """, ct, ("tenant", member.TenantId), ("company", member.CompanyId), ("warehouse", warehouse), ("branch", branch));
         if (found is not null) throw Conflict("Move or resolve physical stock before deactivating this location.");
+        await RequireNoOpenLocationOperations(c, t, member, warehouse, branch, ct);
     }
     private const string WarehouseAccess = """
          w.tenant_id=@tenant AND w.company_id=@company AND w.kind='ORDINARY'
@@ -164,8 +165,10 @@ public sealed partial class InventoryStore(Database database, AuthPolicy auth, I
     private static DateOnly? Day(MySqlDataReader r, string name) =>
         r[name] is DBNull ? null : DateOnly.FromDateTime(r.GetDateTime(name));
 
-    private static async Task<Prepared> Prepare(Scope s, Warehouse warehouse, bool opening, ReceiptInput input)
+    private static async Task<Prepared> Prepare(Scope s, Warehouse warehouse, bool opening, ReceiptInput input,
+        bool adjustment = false, bool completingCount = false)
     {
+        if (!completingCount) await RequireUnfrozen(s, warehouse.Id);
         var business = await Business(s);
         if (!string.Equals(business.Currency, input.ExpectedCurrency, StringComparison.Ordinal))
             throw Conflict("The business currency changed. Refresh before confirming costs.");
@@ -174,7 +177,7 @@ public sealed partial class InventoryStore(Database database, AuthPolicy auth, I
             throw Invalid("Enter a business date on or before the current local date.");
 
         string? supplier = null;
-        if (opening)
+        if (opening || adjustment)
         {
             if (input.SupplierId is not null || input.SupplierReference is not null) throw Invalid("Opening stock has no supplier.");
         }
@@ -199,7 +202,7 @@ public sealed partial class InventoryStore(Database database, AuthPolicy auth, I
                   AND i.is_active=1 AND iu.is_active=1 AND u.is_active=1 AND bu.is_active=1 AND (@opening=1 OR i.purchase_enabled=1)
                 """, r => new Item(r.GetUInt64(0), r.GetUInt64(1), r.GetString(2), r.GetString(3), r.GetString(4), r.GetString(5),
                 r.GetDecimal(6), r.GetBoolean(7), r.GetBoolean(8), r.GetString(9), r.GetBoolean(10)),
-                ("item", line.ItemId), ("unit", line.ItemUnitId), ("opening", opening)) ?? throw Invalid("Select an active product and configured unit allowed for this document.");
+                ("item", line.ItemId), ("unit", line.ItemUnitId), ("opening", opening || adjustment)) ?? throw Invalid("Select an active product and configured unit allowed for this document.");
             if (item.Version != line.ItemVersion || item.UnitVersion != line.UnitVersion)
                 throw Conflict("A selected product or unit changed. Refresh it before posting.");
 
@@ -339,7 +342,7 @@ public sealed partial class InventoryStore(Database database, AuthPolicy auth, I
         return FormattableString.Invariant($"{command}-{year:D4}-{next:D6}");
     }
 
-    private static async Task Append(Scope s, ulong document, ulong warehouse, int lineNumber, PreparedLine line)
+    private static async Task<(ulong Bucket, ulong Entry, ulong Lot)> Append(Scope s, ulong document, ulong warehouse, int lineNumber, PreparedLine line)
     {
         var input = line.Input;
         var existingId = line.ExistingLot?.Id;
@@ -375,22 +378,33 @@ public sealed partial class InventoryStore(Database database, AuthPolicy auth, I
                 ("supplierLot", input.SupplierLot), ("manufactured", input.ManufacturedOn), ("expiry", input.ExpiresOn), ("entered", input.Quantity),
                 ("factor", line.Item.Factor), ("quantity", line.BaseQuantity), ("cost", input.EnteredUnitCost), ("baseCost", line.BaseCost), ("value", line.Value)]);
 
+        var entry = await WriteMovement(s, document, lineId, bucket, warehouse, input.ItemId, lot, input.Condition, line.BaseQuantity, line.Value);
+        return (bucket, entry, lot);
+    }
+
+    private static async Task<ulong> WriteMovement(Scope s, ulong document, ulong lineId, ulong bucket,
+        ulong warehouse, ulong item, ulong lot, string condition, decimal quantity, decimal value)
+    {
         var existing = await s.One("""
             SELECT on_hand_base,operational_value FROM stock_balances
               WHERE tenant_id=@tenant AND company_id=@company AND bucket_id=@bucket FOR UPDATE
             """, r => new { Quantity = r.GetDecimal(0), Value = r.GetDecimal(1) }, ("bucket", bucket));
-        if (!CatalogNumbers.Fits((existing?.Quantity ?? 0) + line.BaseQuantity, 9) ||
-            !CatalogNumbers.Fits((existing?.Value ?? 0) + line.Value, 6))
-            throw Invalid("The resulting stock quantity or value exceeds supported precision.");
+        var nextQuantity = (existing?.Quantity ?? 0) + quantity;
+        var nextValue = (existing?.Value ?? 0) + value;
+        if (!CatalogNumbers.Fits(nextQuantity, 9) || !CatalogNumbers.Fits(nextValue, 6) ||
+            (nextQuantity == 0 && nextValue != 0))
+            throw Conflict("The resulting stock quantity or value is invalid.");
 
         var entry = await s.Insert("""
             INSERT INTO stock_entries(tenant_id,company_id,document_id,line_id,bucket_id,warehouse_id,item_id,lot_id,stock_condition,quantity_base,value_delta)
             VALUES(@tenant,@company,@doc,@line,@bucket,@warehouse,@item,@lot,@condition,@quantity,@value)
-            """, [.. identity, ("doc", document), ("line", lineId), ("bucket", bucket), ("quantity", line.BaseQuantity), ("value", line.Value)]);
+            """, ("warehouse", warehouse), ("item", item), ("lot", lot), ("condition", condition),
+            ("doc", document), ("line", lineId), ("bucket", bucket), ("quantity", quantity), ("value", value));
         await s.Execute("""
             INSERT INTO stock_balances(tenant_id,company_id,bucket_id,last_entry_id,row_version,on_hand_base,operational_value)
             VALUES(@tenant,@company,@bucket,@entry,1,@quantity,@value)
-            ON DUPLICATE KEY UPDATE last_entry_id=@entry,row_version=row_version+1,on_hand_base=on_hand_base+@quantity,operational_value=operational_value+@value
-            """, ("bucket", bucket), ("entry", entry), ("quantity", line.BaseQuantity), ("value", line.Value));
+            ON DUPLICATE KEY UPDATE last_entry_id=@entry,row_version=row_version+1,on_hand_base=@quantity,operational_value=@value
+            """, ("bucket", bucket), ("entry", entry), ("quantity", nextQuantity), ("value", nextValue));
+        return entry;
     }
 }

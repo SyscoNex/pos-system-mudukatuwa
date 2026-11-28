@@ -1,6 +1,8 @@
 # Phase 1 inventory, transfers and operational costs
 
-P1-05 prepares the receiving and opening policy in [the database review](26_P1_05_DATABASE_REVIEW.md), pending approval. Entered quantity × entered-unit cost is the canonical carried value. The rounded base-unit cost is a reference figure. This supersedes the earlier incoming formula below for the prepared slice.
+P1-06 code applies the approved P1-05 arithmetic to issues and paired movements. Full depletion takes the exact remaining value. For transfers, each settlement consumes the dispatch allocation's remaining quantity and value. [Implementation and approval status](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
+
+SysConex approved the P1-05 receiving and opening policy. Entered quantity × entered-unit cost is the canonical carried value. The rounded base-unit cost is a reference figure. [Approved posting policies](26_P1_05_DATABASE_REVIEW.md)
 **Approved Phase 1 stock/cost direction; detailed business policies still need validation with the dependent slice.** Inventory can post independently of financial accounting. No journal, chart of accounts or financial-period dependency exists. No inventory code is implemented in P1-01.
 
 ## Stock and eligibility
@@ -11,7 +13,7 @@ FEFO chooses eligible earliest expiry, then deterministic lot/bucket IDs; nonexp
 
 ## Approved minimal operational cost direction
 Retain original entered purchase/base unit cost and immutable carried value on entries. No financial FIFO, COGS, cost-layer engine, WIP or ledger accounts.
-- Incoming/opening: quantity times explicit base unit cost, rounded to six-place value under the approved mode. Zero cost is explicit and audited, never the fallback for missing cost.
+- Incoming/opening: entered quantity times explicit entered-unit cost, rounded once to six decimal places using midpoint away from zero. Zero cost requires explicit confirmation and is audited.
 - Ordinary issue: lock bucket quantity/value; issue value = round(current value * issued quantity / current quantity, 6). A complete depletion carries the exact remaining value. This gives a per-bucket moving-average cost, with deterministic residuals.
 - Transfers and condition moves: paired entries have exactly equal opposite quantity/value. Dispatch allocation owns the carried amount. Partial receipts/resolutions consume the allocation's remaining value proportionally; the final consumption takes its exact residual. Never recalculate from a pooled transit average or destination selling price.
 - Destination receives carried cost; a pre-existing bucket blends remaining quantity/value. A later ordinary issue uses its current average.

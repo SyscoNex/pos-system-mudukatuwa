@@ -38,6 +38,7 @@ import {
 } from "./organization-panel";
 import { CatalogPanel } from "./catalog-panel";
 import { InventoryPanel, type InventoryMode } from "./inventory-panel";
+import { StockOperationsPanel, type StockMode } from "./stock-operations-panel";
 type Mode =
   | "login"
   | "home"
@@ -51,7 +52,8 @@ type Mode =
   | "categories"
   | "units"
   | "suppliers"
-  | InventoryMode;
+  | InventoryMode
+  | StockMode;
 function Brand() {
   return (
     <Link href="/" className="auth-brand" aria-label="Conex360 home">
@@ -546,6 +548,18 @@ export function AuthWorkspace({
           </details>
         </header>
         <main id="workspace-main" className="private-main">
+          {(mode === "transfers" ||
+            mode === "adjustments" ||
+            mode === "waste" ||
+            mode === "counts") &&
+            business && (
+              <StockOperationsPanel
+                key={mode + session.contextVersion}
+                mode={mode}
+                session={session}
+                currency={business.currencyCode}
+              />
+            )}
           {(mode === "inventory" ||
             mode === "opening-stock" ||
             mode === "goods-receipts" ||

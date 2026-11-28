@@ -1,6 +1,8 @@
 # Revised Phase 1 implementation plan
 
-Current authorization supersedes the earlier milestone gates below. P1-04 is accepted and P1-05a/b/c is authorized. [The concrete migration and policy package](26_P1_05_DATABASE_REVIEW.md) requires separate approval. Stop at P1-05 for owner review.
+P1-05 is accepted. P1-06a–e code and isolated schema upgrade, installation and synthetic tests are approved. Stop at P1-06 for review. [Implementation status](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
+
+P1-05a/b/c is complete under the approved posting policies and isolated SQL execution. Stop at P1-05 for owner review. [Implementation and verification](25_INVENTORY_INCOMING_IMPLEMENTATION.md)
 
 Current authorization supersedes the earlier P1-02 stop: P1-03a/b and separate SQL 0003–0005/isolated upgrade+clean tests approved. Scope and evidence: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md. Stop for owner review before P1-04. No inventory/transfer/manufacture/POS/display operations are authorized by P1-03.
 

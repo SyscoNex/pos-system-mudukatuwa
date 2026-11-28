@@ -5,6 +5,15 @@ namespace Conex360.Domain.Inventory;
 
 public static class ReceiptMath
 {
+    public static decimal IssueValue(decimal quantity, decimal remaining, decimal value)
+    {
+        if (quantity <= 0 || quantity > remaining || !CatalogNumbers.Fits(quantity, 9) ||
+            !CatalogNumbers.Fits(remaining, 9) || !CatalogNumbers.Fits(value, 6))
+            throw new ArgumentException("Issue exceeds the available quantity or precision.");
+        return quantity == remaining ? value :
+            RoundValue(Scaled(quantity, 9) * Scaled(value, 6), Scaled(remaining, 9));
+    }
+
     private static BigInteger Scaled(decimal value, int scale) =>
         new(value * (scale == 9 ? 1_000_000_000m : 1_000_000m));
 

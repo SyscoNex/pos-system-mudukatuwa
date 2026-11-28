@@ -5,6 +5,7 @@ namespace Conex360.Application.Inventory;
 
 public sealed class InventorySettings
 {
+    public bool StockOperationsEnabled { get; set; }
     public bool Enabled { get; set; }
 }
 
@@ -24,7 +25,11 @@ public sealed record StockRow(ulong Id, ulong WarehouseId, string Warehouse, str
     string BaseUnit, string Lot, DateOnly? ManufacturedOn, DateOnly? ExpiresOn, string Condition,
     bool Blocked, bool Expired, decimal OnHand, decimal Available,
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] decimal? OperationalValue,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] decimal? AverageCost);
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] decimal? AverageCost)
+{
+    public decimal Reserved { get; init; }
+    public ulong ItemId { get; init; }
+}
 
 public sealed record StockMovement(ulong Id, ulong DocumentId, string Number, string Warehouse, string Sku,
     string Lot, string Condition, DateTimeOffset PostedAt, decimal Quantity,

@@ -12,9 +12,14 @@ public sealed partial class InventoryStore
             if (query.Expiry is not (null or "expired" or "dated" or "undated"))
                 throw Invalid("Select a supported expiry filter.");
             var today = (await Business(s)).Today;
+            var reservedSql = await OperationsInstalled(s.Connection, s.Transaction, s.Ct)
+                ? "(SELECT COALESCE(SUM(r.reserved_quantity-r.consumed_quantity-r.released_quantity),0) FROM stock_reservations r WHERE r.tenant_id=k.tenant_id AND r.company_id=k.company_id AND r.bucket_id=k.id)"
+                : "CAST(0 AS DECIMAL(24,9))";
             return await s.List("""
-                SELECT k.id,k.warehouse_id,w.name AS warehouse,i.sku,i.name AS product,u.code AS base_unit,l.lot_code,l.manufactured_on,l.expires_on,
-                  k.stock_condition,l.is_blocked,b.on_hand_base,CASE WHEN @admin=1 THEN b.operational_value END AS visible_value
+                SELECT k.id,k.item_id,k.warehouse_id,w.name AS warehouse,i.sku,i.name AS product,u.code AS base_unit,l.lot_code,l.manufactured_on,l.expires_on,
+                  k.stock_condition,l.is_blocked,b.on_hand_base,CASE WHEN @admin=1 THEN b.operational_value END AS visible_value,
+                """ + " " + reservedSql + """
+                 AS reserved
                 FROM stock_buckets k JOIN stock_balances b ON b.tenant_id=k.tenant_id AND b.company_id=k.company_id AND b.bucket_id=k.id
                 JOIN warehouses w ON w.tenant_id=k.tenant_id AND w.company_id=k.company_id AND w.id=k.warehouse_id
                 JOIN lots l ON l.tenant_id=k.tenant_id AND l.company_id=k.company_id AND l.item_id=k.item_id AND l.id=k.lot_id
@@ -34,12 +39,14 @@ public sealed partial class InventoryStore
                 var blocked = r.GetBoolean("is_blocked");
                 var condition = r.GetString("stock_condition");
                 var quantity = r.GetDecimal("on_hand_base");
+                var reserved = r.GetDecimal("reserved");
                 var value = Amount(r, "visible_value");
                 decimal? average = quantity == 0 || value is null ? null :
                     decimal.Round(value.Value / quantity, 6, MidpointRounding.AwayFromZero);
                 return new StockRow(r.GetUInt64("id"), r.GetUInt64("warehouse_id"), r.GetString("warehouse"), r.GetString("sku"),
                     r.GetString("product"), r.GetString("base_unit"), r.GetString("lot_code"), Day(r, "manufactured_on"), expiry,
-                    condition, blocked, expired, quantity, condition == "AVAILABLE" && !blocked && !expired ? quantity : 0, value, average);
+                    condition, blocked, expired, quantity, condition == "AVAILABLE" && !blocked && !expired ? quantity - reserved : 0, value, average)
+                { Reserved = reserved, ItemId = r.GetUInt64("item_id") };
             }, ("after", query.After ?? 0), ("warehouse", query.WarehouseId), ("item", query.ItemId), ("category", query.CategoryId),
                 ("batch", Clean(query.Batch, 128)), ("expiry", query.Expiry), ("today", today));
         }, ct);
