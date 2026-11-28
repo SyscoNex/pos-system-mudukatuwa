@@ -203,7 +203,10 @@ public sealed partial class MySqlIdentityTests
             {
                 await ops.ChangeAsync(admin, false, sourceIssue with
                 {
-                    OperationId = Guid.NewGuid(), BucketId = null, ItemUnitId = null, Quantity = null,
+                    OperationId = Guid.NewGuid(),
+                    BucketId = null,
+                    ItemUnitId = null,
+                    Quantity = null,
                     Incoming = seed with { Quantity = 1, LotCode = "P106-EXPIRING", ManufacturedOn = null, ExpiresOn = expiry }
                 }, "test", default);
                 var expiring = await ops.RequestAsync(admin, Request(source.Id, destination.Id, 1), "test", default);
