@@ -13,6 +13,7 @@ services:
       - ./mysql/bootstrap-accounts.sh:/docker-entrypoint-initdb.d/10-accounts.sh:ro
       - ./mysql/grant-runtime.sh:/opt/conex360/grant-runtime.sh:ro
       - ./mysql/grant-organization.sh:/opt/conex360/grant-organization.sh:ro
+      - ./mysql/grant-catalog.sh:/opt/conex360/grant-catalog.sh:ro
     command: [--general-log=OFF, --slow-query-log=OFF, --default-time-zone=+00:00, --log-bin-trust-function-creators=ON]
     expose: ["3306"]
     # Deliberately NO published ports. Tools/API run on the private project network.
@@ -39,6 +40,7 @@ services:
       Database__MigrationConnectionFile: /run/secrets/migration_connection
       Operations__Enabled: "true"
       Organization__Enabled: "true"
+      Catalog__Enabled: "true"
     secrets: [runtime_connection, migration_connection, dp_certificate, dp_password]
     volumes:
       - ../artifacts/auth-review:/evidence
@@ -55,6 +57,7 @@ services:
       AllowedHosts: "localhost;127.0.0.1;api"
       Authentication__Enabled: "true"
       Organization__Enabled: "true"
+      Catalog__Enabled: "true"
       Authentication__AllowInsecureDevelopmentCookies: "true"
       Authentication__AllowedOrigins__0: http://127.0.0.1:3602
       Database__Enabled: "true"

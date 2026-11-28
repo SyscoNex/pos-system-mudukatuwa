@@ -1,5 +1,7 @@
 # Phase 1 requirements
 
+P1-04 implements catalogue and suppliers (docs/23). Administrator manages master data; Staff reads active catalogue/contact data without purchase-price fields or internal supplier notes. Explicit exact item factors, active default purchase/sale units, binary exact barcodes, expiry=>LOT, versioned edits and soft deactivation apply. Base UOM is immutable from creation, currency locks at first configured price. Stock, customers, actual valuation and document snapshots are later milestones; the P1-08 display specification remains unchanged.
+
 P1-03 delivers the location/user portion: Administrator management, Staff active-outlet grants, one default warehouse with safe replacement, atomic default locations, hidden canonical transit, scoped session outlet context and last-active-Administrator protection. No inventory/transfer posting. Current acceptance evidence: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md; later rows remain future outcomes.
 
 The owner approved Phase 1 scope/design, accepted P1-01 and authorized P1-02. Earlier FIN/OFF/advanced requirements remain future scope. Rows describe Phase 1 outcomes; actual implementation evidence is in docs/18 and docs/19. Remaining operational choices appear in the plan/decision log.

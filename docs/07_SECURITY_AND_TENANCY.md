@@ -1,5 +1,7 @@
 # Phase 1 security and tenant isolation
 
+P1-04 catalogue reads/writes revalidate the current membership/company inside the SQL transaction, independently of client scope or cached role. Only Administrator modifies master data. Staff reads active company catalogue/supplier contacts without purchase-price fields/internal notes, even with no outlet grants; this grants no operational stock access. Sensitive detail projections follow the transaction-revalidated role, preventing stale-role response leakage. Product audit before/after snapshots include exact price/factor/barcode changes in the existing private append-only audit table, without credentials or customer PII. CSRF, no-store and context invalidation are unchanged. No new dependencies or public endpoints.
+
 P1-03 implements ordinary membership/grant management and last-active-enabled-Administrator protection under company serialization. Grant/role/outlet status changes advance affected selected-session revisions and clear outlet context; SQL rechecks scope/role on each command. Staff without grants cannot access operational outlets/warehouses/locations; canonical transit is never granted by NULL branch. Global password resets/disabling remain SysConex controlled; new existing-identity linkage requires consent and current-password proof, not email alone. See docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
 
 

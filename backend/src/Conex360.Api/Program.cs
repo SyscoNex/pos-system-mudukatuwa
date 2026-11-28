@@ -99,6 +99,7 @@ if (app.Environment.IsDevelopment())
 app.MapFoundationHealth();
 app.MapIdentity();
 app.MapOrganization();
+app.MapCatalog();
 app.MapFallback("/{**path}", () => Results.NotFound()).AllowAnonymous();
 app.Run();
 

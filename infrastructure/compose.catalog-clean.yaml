@@ -1,0 +1,6 @@
+# Approved isolated P1-04 clean installation; reuse existing tool image.
+services:
+  tools:
+    image: conex360-auth-review-tools
+    volumes:
+      - ../artifacts/p104-clean:/evidence

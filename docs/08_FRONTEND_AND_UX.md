@@ -1,12 +1,14 @@
 # Phase 1 frontend and UX
 
+P1-04 adds /settings/products, /settings/categories, /settings/units and /settings/suppliers to the existing protected workspace. Search/type/status filtering, versioned native dialogs and optional details reuse existing CSS/components. Administrators configure the full product/unit/barcode aggregate; Staff views active records without purchase prices/internal notes. Optional standard-unit setup contains no client products/factors. Blank price is unset; explicit zero is valid. Currency-lock/base-UOM help reflects the approved restrictions. Private pages remain dynamic/no-store; mutations invalidate scoped tabs. No stock/POS placeholders.
+
 P1-03 adds /settings/outlets, /settings/warehouses and /settings/users with searchable/filterable lists, dialogs, confirmation, validation and one-time credential handoff. Protected header distinguishes business, working outlet and all-outlets management; no outlets shows an informative empty state. No stock counts/values or operational placeholders. Existing branding/private caches remain; see docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
 
 
 ## Mandatory P1-08 dual-screen checkout
 Cashier /pos supports Open Customer Display; /pos/customer-display is fullscreen-capable read-only content on a second extended monitor. Branding/welcome, cart lines/discounts/totals, paid/change and authoritative completion/thank-you/reset, with visible provisional/stale/disconnected/reconnect states. No operational code in P1-02. [Complete UX/protocol](20_CUSTOMER_DISPLAY.md).
 
-Next.js/TypeScript App Router and Node runtime are retained. The P1-01 foundation overview remains; P1-02 adds branded login, password/forced change, protected workspace/account menu, verified business selection and Administrator business settings/logo. Outlet and operational modules remain later milestones. No fabricated dashboard statistics. See docs/19 for actual validation.
+Next.js/TypeScript App Router and Node runtime are retained. Foundation, authentication, business settings, outlets/users and catalogue screens remain working; stock and POS modules are later milestones. No fabricated dashboard statistics. Actual evidence: docs/19, docs/21 and docs/23.
 
 ## Screens added by slice
 Login/password change; Business profile/logo; Administrator user list and Staff outlet grants; outlets/warehouses; product/category/unit/barcode/prices; suppliers/customers; opening/incoming stock; warehouse/lot stock/history/expiry; transfer request/reserve/dispatch/partial receipt/discrepancy; adjustment/waste/count; completed manufacturing run; online POS/payment/receipt/return; dashboard/basic reports/audit.

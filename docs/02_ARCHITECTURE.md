@@ -1,5 +1,7 @@
 # Phase 1 architecture
 
+P1-04 extends the four projects with Catalog contracts, pure exact conversion arithmetic, one focused parameterized SQL adapter and /api/v1/catalog endpoints. It reuses guarded company transactions, session/context checks and append-only audit; no ORM, new service or repository framework. Product aggregate commands validate parent and child versions and save units/barcodes/audit atomically. Private Next.js settings reuse the protected workspace and native dialogs. See docs/23 for endpoints and limits.
+
 P1-03 retains four projects/dependencies and existing auth authority. Focused Organization contracts/SQL adapter and API endpoints extend the existing session context revision, without separate permissions or authentication infrastructure. Company row locking serializes management/default/last-Administrator invariants. Existing private Next.js workspace adds three settings routes and an outlet selector. See docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md.
 
 

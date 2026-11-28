@@ -1,5 +1,8 @@
 # Proposed Phase 1 API contracts
 
+## Implemented P1-04 catalogue
+Base /api/v1/catalog: GET/POST/PUT units, categories, suppliers and products (PUT uses /{id}); POST units/defaults; GET products/{id}; GET barcode?value=exact; POST products/{id}/convert. All require current Business context; all master-data writes require Administrator and CSRF. List/detail/exact conversion reads are available to Staff, active records only; convert is a protected POST with CSRF but no business mutation. Admin product detail includes purchasePrice; Staff detail and barcode DTOs omit that field entirely. Prices/factors/quantities and unsigned IDs remain JSON strings; null price differs from zero. Product writes contain the complete retained, versioned unit/barcode aggregate. Ownership and base-unit identities cannot be reassigned. Full endpoint/response details and usage: docs/23. Later proposals below are not implemented until their milestone.
+
 P1-03 actual /api/v1/organization routes and access matrix: docs/21_OUTLETS_WAREHOUSES_USERS_IMPLEMENTATION.md. Outlets/warehouses/users GET/POST and versioned PUT, authorized warehouse locations, GET/POST working context. Existing cookie/CSRF/origin/active-membership/company/context-revision checks apply. One-time Staff credentials never enter logs/browser persistence; no public existing-identity linkage.
 
 
@@ -7,7 +10,7 @@ P1-03 actual /api/v1/organization routes and access matrix: docs/21_OUTLETS_WARE
 Actual authentication/business endpoints, CSRF headers, string IDs, context/row versions and errors: [implementation report](19_AUTH_BUSINESS_IMPLEMENTATION.md). Later endpoint proposals below remain unimplemented. No public registration or client-tenant-ID authorization.
 P1-08 distinguishes provisional cart from server-confirmed totals and committed payment. Customer display receives a separate sanitized allowlisted DTO over BroadcastChannel, never backend entities or privileged commands. See [display protocol](20_CUSTOMER_DISPLAY.md).
 
-P1-01 implements only GET /api/v1/health (plus process-only /health/live and /health/ready). It returns status/service/version/scope/timestamp; scope=process does not assert database or business readiness. Development-only /openapi/v1.json describes health. All business routes below remain unimplemented. Browser requests use same-origin /api/v1. In P1-02, tenant and the one default company will resolve from authenticated active membership; no company selector or tenant/company body binding. For a multi-membership user, a server-validated context-selection command may choose a granted membership; it never accepts arbitrary tenant authority.
+The foundation health endpoints remain; readiness checks the database when configured, while liveness stays process-only. Browser requests use same-origin /api/v1. Tenant/default company resolve from the authenticated active membership; there is no client tenant/company authority. Multi-membership selection validates a granted membership server-side. Authentication, organization and catalogue routes described above are implemented; later operational contracts below remain proposals.
 
 Implemented foundation conventions: private/no-store API responses, safe problem details with code/traceId, structured redacted request/error logs, .NET validation registration and strict decimal/ulong string converters. There is no request-body business endpoint yet; module-specific bounds and authorization belong in their future slices.
 
