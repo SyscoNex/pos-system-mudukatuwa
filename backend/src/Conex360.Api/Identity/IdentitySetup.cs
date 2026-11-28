@@ -28,7 +28,7 @@ public static class IdentitySetup
         var organization = configuration.GetSection("Organization").Get<OrganizationSettings>() ?? new();
         var catalog = configuration.GetSection("Catalog").Get<CatalogSettings>() ?? new();
         var inventory = configuration.GetSection("Inventory").Get<InventorySettings>() ?? new();
-        db.MinimumSchemaVersion = inventory.Enabled ? 9 : catalog.Enabled ? 7 : organization.Enabled ? 5 : 2;
+        db.MinimumSchemaVersion = inventory.Enabled && inventory.StockOperationsEnabled ? 11 : inventory.Enabled ? 9 : catalog.Enabled ? 7 : organization.Enabled ? 5 : 2;
         var insecure = environment.IsDevelopment() && policy.AllowInsecureDevelopmentCookies;
         if (!environment.IsDevelopment() && db.AllowUnverifiedDevelopmentTls)
             throw new InvalidOperationException("Unverified database certificates are restricted to explicit local Development configuration.");
@@ -49,7 +49,9 @@ public static class IdentitySetup
         services.AddSingleton(organization);
         services.AddSingleton(catalog);
         services.AddSingleton(inventory);
-        services.AddSingleton<IInventoryStore, InventoryStore>();
+        services.AddSingleton<InventoryStore>();
+        services.AddSingleton<IInventoryStore>(s => s.GetRequiredService<InventoryStore>());
+        services.AddSingleton<IStockOperations>(s => s.GetRequiredService<InventoryStore>());
         services.AddSingleton<ICatalogStore, CatalogStore>();
         services.AddSingleton<IOrganizationStore, OrganizationStore>();
         services.AddSingleton<Database>();

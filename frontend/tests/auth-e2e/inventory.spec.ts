@@ -50,7 +50,10 @@ test("receive an identified lot and verify stock on desktop and mobile", async (
     .fill("12.345678");
   const lot = "BROWSER-" + Date.now();
   await page.getByLabel("Lot code", { exact: true }).fill(lot);
-  await page.getByLabel("Expiry date", { exact: true }).fill("2099-12-31");
+  const businessDate = await page
+    .getByLabel("Business date", { exact: true })
+    .inputValue();
+  await page.getByLabel("Expiry date", { exact: true }).fill(businessDate);
   await page
     .getByRole("button", { name: "Preview posting", exact: true })
     .click();
@@ -64,6 +67,9 @@ test("receive an identified lot and verify stock on desktop and mobile", async (
   await page.getByRole("link", { name: "View document", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Print", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Total: LKR 24.69", { exact: true }),
   ).toBeVisible();
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({

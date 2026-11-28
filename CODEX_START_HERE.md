@@ -1,6 +1,8 @@
 # Conex360 — continue from the foundation
 
-Current authority: P1-04 accepted and P1-05 implementation authorized. Review [implementation status](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md) and [the separate SQL and policy gate](docs/26_P1_05_DATABASE_REVIEW.md). The earlier milestone boundaries below are historical. Stop at P1-05 for owner review.
+P1-05 is accepted. P1-06 schema 0011 and focused tests are verified under the isolated execution approval. Stop before P1-07 for owner review. [Handoff](docs/27_STOCK_OPERATIONS_IMPLEMENTATION.md) · [Database review](docs/28_P1_06_DATABASE_REVIEW.md)
+
+P1-05 is complete and the approved review environment has posting enabled. Earlier milestone gates below are historical. Stop for owner review before P1-06. [Implementation and evidence](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md)
 
 Current authority: P1-03 accepted; P1-04a/b/c code and isolated 0006–0007 execution approved on 28 November 2026. Read docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md and docs/24_P1_04_DATABASE_REVIEW.md. Stop before P1-05. Do not touch SchoolGrid project database or alter original migrations/references.
 

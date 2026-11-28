@@ -1,6 +1,8 @@
 # Conex360 — Phase 1 development knowledge pack
 
-P1-04 is accepted. P1-05 Inventory and Incoming Stock is in implementation. The [implementation report](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md) records checks and the separate approval required for the [posting policy and migrations](docs/26_P1_05_DATABASE_REVIEW.md). Previous milestone information below is historical.
+P1-05 is accepted. P1-06 transfers, adjustments, waste and stock takes are implemented and verified on MySQL under the isolated migration approval. [Current handoff](docs/27_STOCK_OPERATIONS_IMPLEMENTATION.md)
+
+P1-05 Inventory and Incoming Stock is implemented, verified and enabled on the Conex360 review environment. P1-06 follows owner review. [Implementation report and local usage](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md)
 
 P1-04 adds company-scoped products, categories, units, conversions, barcodes, basic prices and suppliers to the accepted P1-03 application. Migrations 0006–0007 and isolated tests were separately approved. See [P1-04 handoff and usage](docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md). Stop before P1-05. SchoolGrid remains excluded; retain the Workbench override when running review commands.
 
@@ -14,7 +16,7 @@ The accepted foundation/authentication/outlet management remains intact; earlier
 1. Read AGENTS.md, docs/00_PROJECT_OVERVIEW.md and docs/12_DECISION_LOG.md.
 2. Review docs/14_PHASE1_IMPLEMENTATION_PLAN.md and docs/03_DATABASE_DESIGN.md.
 3. Review docs/15_PHASE1_SCHEMA_MAPPING.md and docs/16_ENVIRONMENT_READINESS.md.
-4. Review P1-04 evidence before authorizing P1-05. The 38 tables remain a starting design; 17 application tables are introduced so far. Same-computer customer display is mandatory Phase 1, reserved for P1-08; see docs/20_CUSTOMER_DISPLAY.md.
+4. Review P1-05 evidence before authorizing P1-06. The 38 tables remain a starting design and 26 application tables are implemented. Same-computer customer display is mandatory Phase 1 and scheduled for P1-08. See docs/20_CUSTOMER_DISPLAY.md.
 
 ## Run locally
 Prerequisites: .NET SDK 10.0.404 and Node 26.13.1/npm 11.20.0. The Node selection is workspace-local on Windows; the system Node installation is unchanged.

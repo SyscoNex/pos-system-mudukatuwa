@@ -1,5 +1,7 @@
 # Proposed Phase 1 API contracts
 
+P1-06 endpoints are under /api/v1/inventory/operations. Posting retains the UUID and decimal string conventions and application authorization. Count entry edits use the snapshot version. [Routes and permission matrix](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
+
 P1-05 adds guarded /api/v1/inventory routes. Opening and receipt commands carry string IDs and decimals, expected catalogue/warehouse versions and a durable UUID. History uses cursor pagination and current outlet scope. See [the API handoff](25_INVENTORY_INCOMING_IMPLEMENTATION.md).
 
 ## Implemented P1-04 catalogue

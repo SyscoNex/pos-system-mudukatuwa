@@ -1,0 +1,5 @@
+services:
+  tools:
+    image: conex360-auth-review-tools
+    volumes:
+      - ../artifacts/p106-clean:/evidence

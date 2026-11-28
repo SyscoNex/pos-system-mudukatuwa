@@ -113,6 +113,7 @@ public sealed class CatalogStore(Database database, AuthPolicy auth, CatalogSett
                     WHERE k.tenant_id=@tenant AND k.company_id=@company AND k.item_id=@item AND b.on_hand_base>0 LIMIT 1
                     """, ct, [.. Scope(current), ("item", id)]) is not null)
                     throw Invalid("This product still has physical stock.");
+                if (!e.IsActive) await InventoryStore.RequireNoOpenItemRequests(c, t, current.Selected!, id!.Value, ct);
             }
             if (old is not null) { Version(old.Product.Version, e.ExpectedVersion); if (old.Product.BaseUnitId != e.BaseUnitId) throw Invalid("The base unit is immutable; create a new SKU for a different stock identity."); }
             if (e.CategoryId is { } cat) { var category = (await Categories(c, t, current, ct)).SingleOrDefault(x => x.Id == cat) ?? throw Missing(); if (e.IsActive && !category.IsActive) throw Invalid("Select an active category."); }

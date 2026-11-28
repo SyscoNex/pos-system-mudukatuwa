@@ -1,6 +1,8 @@
 # Phase 1 roadmap
 
-P1-04 is accepted and P1-05 is in implementation. See [current results](25_INVENTORY_INCOMING_IMPLEMENTATION.md) and [the separate SQL and policy gate](26_P1_05_DATABASE_REVIEW.md). P1-06 follows owner review.
+P1-05 is accepted. P1-06 is complete with the approved upgrade, private clean install, MySQL integrity and browser workflow verified. P1-07 follows owner review. [Current handoff](27_STOCK_OPERATIONS_IMPLEMENTATION.md)
+
+P1-05 is implemented and verified under its isolated migration and posting approval. P1-06 follows owner review. [Inventory and receiving results](25_INVENTORY_INCOMING_IMPLEMENTATION.md)
 
 Current progress: P1-03 accepted; P1-04 Products, Units, Prices and Suppliers implemented with separately approved isolated 0006–0007 execution. Review docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md before authorizing P1-05 Inventory and Incoming Stock. Later stages, including mandatory P1-08 customer display, remain unimplemented.
 

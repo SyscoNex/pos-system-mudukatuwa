@@ -91,6 +91,7 @@ type Stock = {
   blocked: boolean;
   expired: boolean;
   onHand: string;
+  reserved?: string;
   available: string;
   operationalValue?: string;
   averageCost?: string;
@@ -436,6 +437,14 @@ export function InventoryPanel({
           {admin && <Link href="/inventory/opening-stock">Opening stock</Link>}
           <Link href="/inventory/goods-receipts">Goods receipts</Link>
           <Link href="/inventory/movements">Movements</Link>
+          <Link href="/inventory/transfers">Transfers</Link>
+          <Link href="/inventory/counts">Stock takes</Link>
+          {admin && (
+            <>
+              <Link href="/inventory/adjustments">Adjustments</Link>
+              <Link href="/inventory/waste">Waste</Link>
+            </>
+          )}
         </nav>
       </header>
       {error && (
@@ -976,6 +985,9 @@ export function InventoryPanel({
                               </td>
                               <td>
                                 {row.onHand} {row.baseUnit} on hand
+                                {row.reserved && row.reserved !== "0" && (
+                                  <> · {row.reserved} reserved</>
+                                )}
                                 <br />
                                 {row.available} available · {row.condition}
                                 {row.expired && " · Expired"}

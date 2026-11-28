@@ -1,6 +1,8 @@
 # Decision log — Phase 1
 
-P33 (pending inventory policy and execution approval). P1-04 accepted and P1-05 code authorized. The proposed rounding, expiry, opening eligibility and Staff receipt-cost policies, migrations and targets are in [the P1-05 review](26_P1_05_DATABASE_REVIEW.md).
+P34 (approved and verified, 29 November 2026). SysConex approved migrations 0010–0011 and runtime grants on conex360-auth-review and private conex360-p106-clean. Whole-request FEFO reservation, source cancellation of the undisbursed remainder and return into HOLD at the original source were approved. Both schema installations, focused MySQL verification and the browser transfer and stock-take workflow passed. [Policy and migration review](28_P1_06_DATABASE_REVIEW.md)
+
+P33 (approved and verified, 28 November 2026). SysConex approved all P1-05 inventory policies and separately authorized migrations 0008–0009 and runtime grants on conex360-auth-review and private conex360-p105-clean. Both installations and focused MySQL tests passed. Posting was enabled on the review API after verification and the browser receipt workflow passed. P1-06 follows owner review. [Approved policies](26_P1_05_DATABASE_REVIEW.md) · [Verification results](25_INVENTORY_INCOMING_IMPLEMENTATION.md)
 
 P31 (owner-authorized/implemented): P1-03 accepted; P1-04a/b/c plus docs/24's 0006–0007, catalogue grants, review upgrade and private p104-clean tests separately approved on 28 November 2026. Stop before P1-05. Six scoped tables; no new package, ORM or service. This supersedes earlier milestone gates below.
 
