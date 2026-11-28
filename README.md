@@ -1,5 +1,7 @@
 # Conex360 — Phase 1 development knowledge pack
 
+P1-04 is accepted. P1-05 Inventory and Incoming Stock is in implementation. The [implementation report](docs/25_INVENTORY_INCOMING_IMPLEMENTATION.md) records checks and the separate approval required for the [posting policy and migrations](docs/26_P1_05_DATABASE_REVIEW.md). Previous milestone information below is historical.
+
 P1-04 adds company-scoped products, categories, units, conversions, barcodes, basic prices and suppliers to the accepted P1-03 application. Migrations 0006–0007 and isolated tests were separately approved. See [P1-04 handoff and usage](docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md). Stop before P1-05. SchoolGrid remains excluded; retain the Workbench override when running review commands.
 
 **SysConex | P1-04 / application v0.1.0 / knowledge pack v0.7 | 28 November 2026**

@@ -83,6 +83,8 @@ export async function api<T>(
   return (response.status === 204 ? undefined : await response.json()) as T;
 }
 export function safeReturnPath(value: string | null): string {
+  if (value && /^\/inventory\/documents\/[1-9][0-9]{0,19}$/.test(value))
+    return value;
   return [
     "/app",
     "/settings/business",
@@ -93,6 +95,10 @@ export function safeReturnPath(value: string | null): string {
     "/settings/categories",
     "/settings/units",
     "/settings/suppliers",
+    "/inventory",
+    "/inventory/opening-stock",
+    "/inventory/goods-receipts",
+    "/inventory/movements",
     "/account/password",
     "/select-business",
   ].includes(value ?? "")

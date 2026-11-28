@@ -31,6 +31,7 @@ const config: NextConfig = {
         "/login",
         "/app",
         "/settings/:path*",
+        "/inventory/:path*",
         "/account/:path*",
         "/select-business",
       ].map((source) => ({

@@ -100,6 +100,7 @@ app.MapFoundationHealth();
 app.MapIdentity();
 app.MapOrganization();
 app.MapCatalog();
+app.MapInventory();
 app.MapFallback("/{**path}", () => Results.NotFound()).AllowAnonymous();
 app.Run();
 

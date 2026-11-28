@@ -37,6 +37,7 @@ import {
   type OutletContext,
 } from "./organization-panel";
 import { CatalogPanel } from "./catalog-panel";
+import { InventoryPanel, type InventoryMode } from "./inventory-panel";
 type Mode =
   | "login"
   | "home"
@@ -49,7 +50,8 @@ type Mode =
   | "products"
   | "categories"
   | "units"
-  | "suppliers";
+  | "suppliers"
+  | InventoryMode;
 function Brand() {
   return (
     <Link href="/" className="auth-brand" aria-label="Conex360 home">
@@ -71,7 +73,13 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-export function AuthWorkspace({ mode }: { mode: Mode }) {
+export function AuthWorkspace({
+  mode,
+  inventoryDocumentId,
+}: {
+  mode: Mode;
+  inventoryDocumentId?: string;
+}) {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
   const [business, setBusiness] = useState<Business | null>(null);
@@ -417,6 +425,14 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
         <Brand />
         <span className="auth-eyebrow">WORKSPACE</span>
         <nav aria-label="Application">
+          {session.selectedMembershipId && !session.user.mustChangePassword && (
+            <Link
+              href="/inventory"
+              aria-current={mode === "inventory" ? "page" : undefined}
+            >
+              <LayoutGrid size={18} /> Inventory
+            </Link>
+          )}
           {!session.user.mustChangePassword &&
             session.selectedMembershipId &&
             (["products", "categories", "units", "suppliers"] as const).map(
@@ -530,6 +546,22 @@ export function AuthWorkspace({ mode }: { mode: Mode }) {
           </details>
         </header>
         <main id="workspace-main" className="private-main">
+          {(mode === "inventory" ||
+            mode === "opening-stock" ||
+            mode === "goods-receipts" ||
+            mode === "movements") &&
+            business && (
+              <InventoryPanel
+                key={
+                  mode + session.contextVersion + (inventoryDocumentId ?? "")
+                }
+                mode={mode}
+                session={session}
+                documentId={inventoryDocumentId}
+                timezone={business.timezone}
+                currency={business.currencyCode}
+              />
+            )}
           {(mode === "products" ||
             mode === "categories" ||
             mode === "units" ||

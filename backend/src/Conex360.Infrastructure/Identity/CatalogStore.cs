@@ -98,6 +98,22 @@ public sealed class CatalogStore(Database database, AuthPolicy auth, CatalogSett
         {
             var masters = await Units(c, t, current, ct); var baseUnit = masters.SingleOrDefault(u => u.Id == e.BaseUnitId) ?? throw Missing();
             var old = id is null ? null : await Detail(c, t, current, id.Value, ct);
+            if (old is not null && await InventoryStore.SchemaInstalledAsync(c, t, ct))
+            {
+                var used = await List(c, t, "SELECT DISTINCT item_unit_id FROM document_lines WHERE tenant_id=@tenant AND company_id=@company AND item_id=@item",
+                    r => r.GetUInt64(0), ct, [.. Scope(current), ("item", id)]);
+                if (used.Count > 0 && (old.Product.TrackingMode != e.TrackingMode || old.Product.ExpiryRequired != e.ExpiryRequired))
+                    throw Invalid("Tracking and expiry rules cannot change after stock is posted.");
+                if (e.Units.Any(u => u.Id is { } unit && used.Contains(unit) &&
+                    old.Units.Any(x => x.Id == unit && x.ToBaseFactor != u.ToBaseFactor)))
+                    throw Invalid("A posted unit's conversion factor cannot change.");
+                if (!e.IsActive && await Sql.Scalar(c, t, """
+                    SELECT 1 FROM stock_buckets k JOIN stock_balances b
+                      ON b.tenant_id=k.tenant_id AND b.company_id=k.company_id AND b.bucket_id=k.id
+                    WHERE k.tenant_id=@tenant AND k.company_id=@company AND k.item_id=@item AND b.on_hand_base>0 LIMIT 1
+                    """, ct, [.. Scope(current), ("item", id)]) is not null)
+                    throw Invalid("This product still has physical stock.");
+            }
             if (old is not null) { Version(old.Product.Version, e.ExpectedVersion); if (old.Product.BaseUnitId != e.BaseUnitId) throw Invalid("The base unit is immutable; create a new SKU for a different stock identity."); }
             if (e.CategoryId is { } cat) { var category = (await Categories(c, t, current, ct)).SingleOrDefault(x => x.Id == cat) ?? throw Missing(); if (e.IsActive && !category.IsActive) throw Invalid("Select an active category."); }
             if (!e.Units.Any(u => u.UnitId == e.BaseUnitId && u.IsActive && u.ToBaseFactor == 1)) throw Invalid("Configure an active base unit with conversion factor one.");

@@ -1,5 +1,7 @@
 # Phase 1 roadmap
 
+P1-04 is accepted and P1-05 is in implementation. See [current results](25_INVENTORY_INCOMING_IMPLEMENTATION.md) and [the separate SQL and policy gate](26_P1_05_DATABASE_REVIEW.md). P1-06 follows owner review.
+
 Current progress: P1-03 accepted; P1-04 Products, Units, Prices and Suppliers implemented with separately approved isolated 0006–0007 execution. Review docs/23_CATALOG_SUPPLIERS_IMPLEMENTATION.md before authorizing P1-05 Inventory and Incoming Stock. Later stages, including mandatory P1-08 customer display, remain unimplemented.
 
 This ten-stage order replaces the enterprise M0-M7 delivery commitment. Build a useful tested vertical slice each time; no dates promised without capacity/client decisions. Details: [implementation plan](14_PHASE1_IMPLEMENTATION_PLAN.md).
